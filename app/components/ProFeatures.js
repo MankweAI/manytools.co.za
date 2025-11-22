@@ -5,104 +5,135 @@ import { useState } from "react";
 import { supabase } from "../../utils/supabaseClient";
 
 export default function ProFeatures() {
-  const [showNotification, setShowNotification] = useState(false);
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState("idle"); // idle, loading, success, error
 
-  const logEvent = async (eventName) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("loading");
+
     try {
-      const { error } = await supabase
-        .from("transfer_duty_calculator_events")
-        .insert([{ event_name: eventName }]);
-      if (error) console.error("Supabase logging error:", error.message);
+      const { error } = await supabase.from("leads").insert([
+        {
+          email: email,
+          source: "bond_calculator_pdf",
+          created_at: new Date(),
+        },
+      ]);
+
+      if (error) throw error;
+
+      setStatus("success");
+      setEmail("");
     } catch (error) {
-      console.error("Error in logEvent function:", error.message);
+      console.error("Error:", error);
+      setStatus("error");
     }
   };
 
-  const handleProClick = () => {
-    logEvent("pro_features_learn_more_click");
-    setShowNotification(true);
-    setTimeout(() => {
-      setShowNotification(false);
-    }, 3000); // Hide notification after 3 seconds
-  };
-
   return (
-    <>
-      {showNotification && (
-        <div className="fixed top-5 right-5 bg-slate-800 text-white py-3 px-5 rounded-lg shadow-lg z-50 animate-fade-in-out">
-          Thanks for your interest! Pro features are coming soon.
-        </div>
-      )}
-      <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
-        <h2 className="text-2xl font-bold text-slate-800 mb-4 text-center">
-          Unlock Pro Features
-        </h2>
-        <p className="mb-8 text-slate-600 text-center max-w-lg mx-auto">
-          For real estate agents, attorneys, and serious investors, our upcoming
-          Pro Tier will offer powerful workflow tools.
-        </p>
-        <div className="grid sm:grid-cols-2 gap-6">
-          <div className="flex items-start space-x-4 bg-slate-50 p-4 rounded-lg border border-slate-200">
-            <div className="flex-shrink-0 h-10 w-10 bg-amber-100 text-amber-600 rounded-lg flex items-center justify-center">
+    <div className="bg-slate-900 text-white p-8 rounded-2xl shadow-xl overflow-hidden relative">
+      {/* Background Pattern */}
+      <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-emerald-500 rounded-full opacity-10 blur-3xl"></div>
+
+      <div className="relative z-10 grid md:grid-cols-2 gap-8 items-center">
+        <div>
+          <h2 className="text-2xl font-bold mb-2">Get a Formal Quote PDF</h2>
+          <p className="text-slate-300 mb-6">
+            Need a formal document for your bank application or client? Enter
+            your email to receive a branded PDF breakdown of this calculation
+            including transfer costs and amortization.
+          </p>
+
+          <ul className="space-y-2 mb-6 text-sm text-slate-400">
+            <li className="flex items-center">
               <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
+                className="w-4 h-4 text-emerald-400 mr-2"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
-                <polyline points="14 2 14 8 20 8" />
-                <line x1="16" y1="13" x2="8" y2="13" />
-                <line x1="16" y1="17" x2="8" y2="17" />
-                <line x1="10" y1="9" x2="8" y2="9" />
-              </svg>
-            </div>
-            <div>
-              <h3 className="font-semibold text-slate-800">Export to PDF</h3>
-              <p className="text-sm text-slate-500">
-                Generate professional, branded cost breakdowns for clients.
-              </p>
-            </div>
-          </div>
-          <div className="flex items-start space-x-4 bg-slate-50 p-4 rounded-lg border border-slate-200">
-            <div className="flex-shrink-0 h-10 w-10 bg-teal-100 text-teal-600 rounded-lg flex items-center justify-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
                 viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M5 13l4 4L19 7"
+                ></path>
+              </svg>
+              Official Amortization Schedule
+            </li>
+            <li className="flex items-center">
+              <svg
+                className="w-4 h-4 text-emerald-400 mr-2"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                viewBox="0 0 24 24"
               >
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
-                <path d="m9 12 2 2 4-4" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M5 13l4 4L19 7"
+                ></path>
               </svg>
-            </div>
-            <div>
-              <h3 className="font-semibold text-slate-800">Save Scenarios</h3>
-              <p className="text-sm text-slate-500">
-                Compare costs for multiple properties side-by-side.
+              Tax Certificate Format
+            </li>
+          </ul>
+        </div>
+
+        <div className="bg-white/5 p-6 rounded-xl border border-white/10">
+          {status === "success" ? (
+            <div className="text-center py-8">
+              <div className="mx-auto w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center mb-4">
+                <svg
+                  className="w-6 h-6 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M5 13l4 4L19 7"
+                  ></path>
+                </svg>
+              </div>
+              <h3 className="font-bold text-white">Request Sent!</h3>
+              <p className="text-slate-400 text-sm mt-2">
+                Check your inbox shortly for your PDF report.
               </p>
             </div>
-          </div>
-        </div>
-        <div className="text-center mt-8">
-          <button
-            onClick={handleProClick}
-            className="bg-slate-800 text-white font-semibold py-2 px-6 rounded-lg shadow hover:bg-slate-900 transition-colors"
-          >
-            Coming Soon: Learn More
-          </button>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-slate-300 mb-1"
+                >
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={status === "loading"}
+                className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {status === "loading" ? "Generating..." : "Email Me My Quote"}
+              </button>
+            </form>
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -1,7 +1,8 @@
 // FILE: app/components/property/BondCalculator.js
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { supabase } from "../../../utils/supabaseClient";
 import {
   calculateMonthlyRepayment,
@@ -48,9 +49,20 @@ const DonutChart = ({ principal, interest }) => {
   );
 };
 
-export default function BondCalculator() {
-  const [purchasePrice, setPurchasePrice] = useState(1650000);
-  const [deposit, setDeposit] = useState(165000);
+function CalculatorContent() {
+  const searchParams = useSearchParams();
+
+  // Initialize state with URL params if they exist, otherwise default
+  const [purchasePrice, setPurchasePrice] = useState(() => {
+    const paramPrice = searchParams.get("price");
+    return paramPrice ? Number(paramPrice) : 1650000;
+  });
+
+  const [deposit, setDeposit] = useState(() => {
+    const paramDeposit = searchParams.get("deposit");
+    return paramDeposit ? Number(paramDeposit) : 165000;
+  });
+
   const [interestRate, setInterestRate] = useState(11.75);
   const [loanTerm, setLoanTerm] = useState(20);
 
@@ -327,5 +339,15 @@ export default function BondCalculator() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function BondCalculator() {
+  return (
+    <Suspense
+      fallback={<div className="p-8 text-center">Loading Calculator...</div>}
+    >
+      <CalculatorContent />
+    </Suspense>
   );
 }
