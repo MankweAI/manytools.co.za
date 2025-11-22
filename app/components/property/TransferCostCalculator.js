@@ -1,3 +1,4 @@
+// FILE: app/components/property/TransferCostCalculator.js
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -6,8 +7,9 @@ import {
   calculateTransferDuty,
   calculateOnceOffCosts,
 } from "../../../utils/calculation";
+import { useCalculatorParams } from "../../../hooks/useCalculatorParams";
 
-// Deterministic formatter to avoid SSR/CSR locale differences
+// Deterministic formatter
 const formatNumber = (n, d = 0) => {
   if (n === null || n === undefined || Number.isNaN(n)) return "0";
   const neg = n < 0 ? "-" : "";
@@ -18,13 +20,31 @@ const formatNumber = (n, d = 0) => {
   return d ? `${neg}${withThousands}.${dec}` : `${neg}${withThousands}`;
 };
 
-export default function TransferCostCalculator() {
-  const [purchasePrice, setPurchasePrice] = useState(1850000);
-  const [displayPrice, setDisplayPrice] = useState("1,850,000");
-  const [loanAmount, setLoanAmount] = useState(1665000);
-  const [displayLoan, setDisplayLoan] = useState("1,665,000");
-  const [showBondCosts, setShowBondCosts] = useState(true);
+export default function TransferCostCalculator({ defaults }) {
+  // 1. Hybrid State Management (URL + Server Defaults)
+  const [purchasePrice, setPurchasePrice] = useCalculatorParams(
+    "price",
+    defaults?.price || 1850000
+  );
+  const [loanAmount, setLoanAmount] = useCalculatorParams(
+    "loan",
+    defaults?.loanAmount ?? 1665000 // Default 90% if not specified
+  );
 
+  // Local display state for formatted inputs
+  const [displayPrice, setDisplayPrice] = useState(formatNumber(purchasePrice));
+  const [displayLoan, setDisplayLoan] = useState(formatNumber(loanAmount));
+
+  // Sync display with hook updates (e.g. URL changes)
+  useEffect(() => {
+    setDisplayPrice(formatNumber(purchasePrice));
+  }, [purchasePrice]);
+
+  useEffect(() => {
+    setDisplayLoan(formatNumber(loanAmount));
+  }, [loanAmount]);
+
+  const [showBondCosts, setShowBondCosts] = useState(true);
   const [result, setResult] = useState(null);
 
   const onMoney = (setDisp, setVal) => (e) => {
@@ -36,21 +56,14 @@ export default function TransferCostCalculator() {
 
   const recalc = useCallback(() => {
     if ((purchasePrice || 0) <= 0) {
-      setResult({
-        transferDuty: 0,
-        transferAttorneyFees: 0,
-        bondRegFees: 0,
-        deedsAndSundries: 0,
-        transferCostsOnly: 0,
-        totalWithBondCosts: 0,
-      });
+      setResult(null);
       return;
     }
     const full = calculateOnceOffCosts(
       Math.max(0, purchasePrice),
       Math.max(0, loanAmount)
     );
-    // Deeds + sundries approximated as residual from helper
+
     const deedsAndSundries = Math.max(
       0,
       full.totalOnceOffCosts -
@@ -95,12 +108,8 @@ export default function TransferCostCalculator() {
     return () => clearTimeout(t);
   }, [purchasePrice, loanAmount, showBondCosts, logEvent]);
 
-  const deposit =
-    Math.max(0, purchasePrice) - Math.max(0, loanAmount) > 0
-      ? Math.max(0, purchasePrice - loanAmount)
-      : 0;
+  const deposit = Math.max(0, purchasePrice - loanAmount);
   const depositPct = purchasePrice > 0 ? (deposit / purchasePrice) * 100 : 0;
-
   const quickDuty = calculateTransferDuty(Math.max(0, purchasePrice));
 
   return (
@@ -133,7 +142,7 @@ export default function TransferCostCalculator() {
             htmlFor="loanAmount"
             className="block text-base font-medium text-slate-700 mb-2"
           >
-            Loan Amount (If Applicable)
+            Loan Amount
           </label>
           <div className="relative">
             <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500">
@@ -147,8 +156,18 @@ export default function TransferCostCalculator() {
               className="w-full pl-7 pr-4 py-2 border border-slate-300 rounded-lg text-lg font-semibold"
             />
           </div>
-          <p className="mt-1 text-xs text-slate-500">
+          {/* Dynamic Feedback for Foreign Buyers */}
+          <p
+            className={`mt-1 text-xs ${
+              depositPct < 50 && defaults?.isForeignBuyer
+                ? "text-red-600 font-bold"
+                : "text-slate-500"
+            }`}
+          >
             Deposit: R {formatNumber(deposit)} ({formatNumber(depositPct, 1)}%)
+            {depositPct < 50 &&
+              defaults?.isForeignBuyer &&
+              " (Warning: Non-residents typically require 50%)"}
           </p>
         </div>
 
@@ -251,4 +270,3 @@ export default function TransferCostCalculator() {
     </div>
   );
 }
-
