@@ -1,12 +1,11 @@
 // FILE: app/property/bond-repayment-calculator/page.js
 import BondCalculator from "../../components/property/BondCalculator";
-import ProFeatures from "../../components/ProFeatures";
 import NextSteps from "../../components/NextSteps";
 
 export const metadata = {
-  title: "Bond Repayment Calculator 2025 | South Africa Home Loans",
+  title: "Bond Repayment Calculator | Free Home Loan Calculator South Africa",
   description:
-    "Calculate monthly bond repayments on your home loan. Features current 2025 interest rates, amortization schedule, and transfer cost estimates.",
+    "Calculate your monthly bond repayments with our free home loan calculator for South Africa. See the total interest paid and view a full amortization schedule.",
 };
 
 const jsonLd = {
@@ -153,7 +152,6 @@ export default function BondRepaymentCalculatorPage() {
           <section>
             <ProFeatures />
           </section>
-
           <section>
             <NextSteps />
           </section>

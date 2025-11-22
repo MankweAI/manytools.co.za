@@ -1,37 +1,33 @@
-import ROICalculator from "../../components/business/ROICalculator";
+import TransferCostCalculator from "../../components/property/TransferCostCalculator";
 
 export const metadata = {
-  title: "ROI Calculator (South Africa) | Return on Investment & Payback",
+  title: "Transfer Cost Calculator | South Africa Property Transfer Costs",
   description:
-    "Calculate simple and annualized ROI, payback period, and total net gain. Free South African ROI calculator for projects and small businesses.",
+    "Estimate property transfer costs in South Africa: transfer duty, attorney fees, deeds office and optional bond registration costs.",
 };
 
 // Structured Data (JSON-LD)
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "ROI Calculator South Africa",
+  name: "Transfer Cost Calculator South Africa",
   applicationCategory: "FinanceApplication",
   operatingSystem: "Any",
   offers: { "@type": "Offer", price: "0", priceCurrency: "ZAR" },
   description:
-    "Estimate simple ROI, annualized ROI, payback period and total net gain using revenue/costs or net profit mode. Ideal for SA SMEs and projects.",
+    "Free South African transfer cost calculator. Estimate transfer duty, transfer attorney fees, deeds office and bond registration costs.",
   author: { "@type": "Organization", name: "ManyTools South Africa" },
 };
 
-export default function ROICalculatorPage() {
+export default function TransferCostCalculatorPage() {
   const faqs = [
     {
-      q: "What is simple ROI?",
-      a: "Simple ROI = (Total Net Gain ÷ Initial Investment) × 100%. Net gain includes profits over the period plus any salvage value, minus the initial investment.",
+      q: "What are transfer costs?",
+      a: "They include SARS transfer duty, transfer attorney fees, deeds office charges and sundries. If you’re taking a bond, add bond registration attorney fees.",
     },
     {
-      q: "What is annualized ROI?",
-      a: "An approximation of average yearly return over the holding period derived from simple ROI. For precise cash flows, use IRR/NPV models.",
-    },
-    {
-      q: "How is payback calculated?",
-      a: "Payback is estimated as Initial Investment ÷ Annual Net Profit (ignores salvage value timing).",
+      q: "Can transfer costs be financed?",
+      a: "Banks generally do not finance transfer duty or transfer attorney fees. Some may include bond registration costs. Confirm with your bank.",
     },
   ];
 
@@ -44,25 +40,25 @@ export default function ROICalculatorPage() {
       <div className="max-w-4xl mx-auto p-4 sm:p-8">
         <header className="text-center mb-10">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            ROI Calculator
+            Transfer Cost Calculator
           </h1>
           <p className="mt-3 text-lg text-slate-600">
-            Estimate return on investment, payback period and net gain.
+            Estimate transfer duty, legal fees and optional bond costs.
           </p>
         </header>
 
         <section id="calculator-section" className="mb-16">
-          <ROICalculator />
+          <TransferCostCalculator />
         </section>
 
         <section id="faq">
           <h2 className="text-2xl font-bold text-slate-800 mb-4">FAQs</h2>
           <div className="space-y-4">
-            {faqs.map((faq, i) => (
+            {faqs.map((faq, idx) => (
               <details
-                key={i}
+                key={idx}
                 className="bg-white p-6 rounded-lg shadow-sm border border-slate-200 group"
-                open={i === 0}
+                open={idx === 0}
               >
                 <summary className="font-semibold text-lg text-slate-800 cursor-pointer list-none flex justify-between items-center">
                   {faq.q}

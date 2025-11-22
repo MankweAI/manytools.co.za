@@ -1,37 +1,37 @@
-// FILE: app/property/bond-vs-cash-calculator/page.js
-import BondVsCashCalculator from "../../components/property/BondVsCashCalculator";
+// FILE: app/property/rental-yield-calculator/page.js
+import RentalYieldCalculator from "../../components/property/RentalYieldCalculator";
 
 export const metadata = {
-  title: "Bond vs Cash Calculator | Which Is Cheaper? (South Africa)",
+  title: "Rental Yield Calculator South Africa | Net & Gross Yield (2025)",
   description:
-    "Compare the true cost of buying property with a bond vs cash in South Africa. Our calculator includes once-off costs and the crucial 'opportunity cost' of your capital.",
+    "Calculate gross and net rental yield for investment properties in South Africa. Our free tool accounts for vacancy rates and annual operating costs like levies and rates.",
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "Bond vs Cash Property Purchase Calculator South Africa",
+  name: "Rental Yield Calculator South Africa",
   applicationCategory: "FinanceApplication",
   operatingSystem: "Any",
   offers: { "@type": "Offer", price: "0", priceCurrency: "ZAR" },
   description:
-    "Compare the effective cost of buying property with a home loan versus paying cash, including legal fees and the opportunity cost of invested capital.",
+    "Free rental yield calculator for South Africa. Estimate gross and net yield, effective gross income, and Net Operating Income (NOI) including vacancy and annual costs.",
   author: { "@type": "Organization", name: "ManyTools South Africa" },
 };
 
-export default function BondVsCashCalculatorPage() {
+export default function RentalYieldCalculatorPage() {
   const faqs = [
     {
-      q: "What is 'opportunity cost' in this calculator?",
-      a: "Opportunity cost is the potential profit you miss out on by using your money in one way instead of another. Here, it represents the estimated returns you could have earned if you invested your upfront cash (deposit or full purchase price) in the market (e.g., stocks or bonds) instead of putting it into the property.",
+      q: "What's the difference between Gross and Net Yield?",
+      a: "Gross Yield is the annual rent as a percentage of the property price, ignoring all expenses. Net Yield is more realistic; it subtracts operating costs like levies, rates, insurance, and vacancy loss from the rent before calculating the percentage.",
     },
     {
-      q: "Why isn't cash always cheaper?",
-      a: "While a cash purchase saves you from paying bond interest, it requires a very large upfront capital outlay. If the interest rate on your bond is lower than the potential return you could earn by investing that capital elsewhere (your opportunity cost), then using the bank's money (the bond) can be 'cheaper' in the long run.",
+      q: "What is a good rental yield in South Africa?",
+      a: "A 'good' yield is subjective and depends on the area, property type, and your investment goals. Generally, many investors in major metro areas aim for a net yield between 5% and 8%. High-demand areas might have lower yields but better capital growth potential.",
     },
     {
-      q: "Are once-off costs like legal fees included?",
-      a: "Yes. The calculator automatically estimates transfer duty, legal fees, and bond registration costs. For the 'Bond Path', you have the option to either pay these upfront or add them to the loan amount, which will affect the calculation.",
+      q: "Which operating costs should I include?",
+      a: "You should include all non-financing costs required to run the property. This includes municipal rates and taxes, body corporate levies (for sectional title), building insurance, and an estimate for routine maintenance (e.g., 1% of the property value per year).",
     },
   ];
 
@@ -44,27 +44,25 @@ export default function BondVsCashCalculatorPage() {
       <div className="max-w-4xl mx-auto p-4 sm:p-8">
         <header className="text-center mb-10">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Bond vs Cash Calculator
+            Rental Yield Calculator
           </h1>
           <p className="mt-3 text-lg text-slate-600">
-            Discover the true long-term cost of your property purchase decision.
+            Estimate the gross and net return on your investment property.
           </p>
         </header>
-
         <section id="calculator-section" className="mb-16">
-          <BondVsCashCalculator />
+          <RentalYieldCalculator />
         </section>
-
         <section id="faq">
           <h2 className="text-2xl font-bold text-slate-800 mb-4">
-            Understanding the Comparison
+            Understanding Rental Yield
           </h2>
           <div className="space-y-4">
-            {faqs.map((faq, i) => (
+            {faqs.map((faq, index) => (
               <details
-                key={i}
+                key={index}
                 className="bg-white p-6 rounded-lg shadow-sm border border-slate-200 group"
-                open={i === 0}
+                open={index === 0}
               >
                 <summary className="font-semibold text-lg text-slate-800 cursor-pointer list-none flex justify-between items-center">
                   {faq.q}

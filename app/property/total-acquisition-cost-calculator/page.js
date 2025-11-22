@@ -1,33 +1,38 @@
-import FirstTimeBuyerCostsCalculator from "../../components/property/FirstTimeBuyerCostsCalculator";
+import TotalAcquisitionCostCalculator from "../../components/property/TotalAcquisitionCostCalculator";
 
 export const metadata = {
-  title: "First-Time Buyer Costs Calculator | Total Cash Needed (SA)",
+  title:
+    "Total Acquisition Cost Calculator | Property Purchase Costs South Africa",
   description:
-    "Estimate the total cash needed to buy your first home in South Africa: deposit, transfer duty, legal fees, moving, setup, and contingency.",
+    "Estimate the total acquisition cost to buy a property in South Africa. Includes transfer duty, attorney transfer costs, bond registration, and sundries.",
 };
 
 // Structured Data (JSON-LD)
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "First-Time Buyer Costs Calculator South Africa",
+  name: "Total Acquisition Cost Calculator South Africa",
   applicationCategory: "FinanceApplication",
   operatingSystem: "Any",
   offers: { "@type": "Offer", price: "0", priceCurrency: "ZAR" },
   description:
-    "Calculate the total upfront cash required to purchase a property: deposit, once-off legal costs, transfer duty, moving, setup, and contingency.",
+    "Estimate the total acquisition cost to buy a property in South Africa, including transfer duty, transfer attorney costs, bond registration, and sundries.",
   author: { "@type": "Organization", name: "ManyTools South Africa" },
 };
 
-export default function FirstTimeBuyerCostsCalculatorPage() {
+export default function TotalAcquisitionCostCalculatorPage() {
   const faqs = [
     {
-      q: "What costs do I pay before transfer?",
-      a: "Typically the deposit (if any), transfer duty, transfer attorney fees, bond registration attorney fees, and deeds office charges.",
+      q: "What is included in acquisition costs?",
+      a: "Transfer duty, attorney transfer (conveyancing) fees, bond registration attorney fees, deeds office and other sundries.",
     },
     {
-      q: "What after-transfer costs should I plan for?",
-      a: "Moving, immediate repairs, setup items (e.g., blinds, locks), and furniture/appliances. Add a contingency buffer for surprises.",
+      q: "Do banks finance these costs?",
+      a: "Banks generally do not finance transfer duty and transfer costs. Some banks may include bond registration costs. Assume cash for conservative planning.",
+    },
+    {
+      q: "Is this a quote?",
+      a: "No. These are simplified estimates for planning. Request a formal quote from your conveyancer and bond attorney.",
     },
   ];
 
@@ -40,15 +45,15 @@ export default function FirstTimeBuyerCostsCalculatorPage() {
       <div className="max-w-4xl mx-auto p-4 sm:p-8">
         <header className="text-center mb-10">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            First-Time Buyer Costs Calculator
+            Total Acquisition Cost Calculator
           </h1>
           <p className="mt-3 text-lg text-slate-600">
-            Plan your deposit, once-off costs and first-month setup budget.
+            Estimate once-off costs and total cash needed to buy a property.
           </p>
         </header>
 
         <section id="calculator-section" className="mb-16">
-          <FirstTimeBuyerCostsCalculator />
+          <TotalAcquisitionCostCalculator />
         </section>
 
         <section id="faq">
