@@ -1,44 +1,125 @@
 // FILE: utils/calculation.js
-// UPDATE: Added estimation logic for conveyancing and bond registration fees.
+
+// ==========================================
+// CONFIGURATION CONSTANTS (THE SOURCE OF TRUTH)
+// ==========================================
+
+/**
+ * Official SARS Transfer Duty Rates (2025/2026 Tax Year).
+ * Used for both calculation logic and generating HTML tables on the server.
+ */
+export const TRANSFER_DUTY_BRACKETS_2025 = [
+  { limit: 1210000, rate: 0, baseAmount: 0 },
+  { limit: 1663800, rate: 0.03, baseAmount: 0 }, // 3% on value above 1,210,000
+  { limit: 2329300, rate: 0.06, baseAmount: 13614 }, // + 6% on value above 1,663,800
+  { limit: 2994800, rate: 0.08, baseAmount: 53544 }, // + 8% on value above 2,329,300
+  { limit: 13310000, rate: 0.11, baseAmount: 106784 }, // + 11% on value above 2,994,800
+  { limit: Infinity, rate: 0.13, baseAmount: 1241456 }, // + 13% on value above 13,310,000
+];
+
+/**
+ * Guideline for Attorney Transfer (Conveyancing) Fees.
+ * These are estimates based on typical industry rates, not regulated fixed rates.
+ */
+export const CONVEYANCING_FEES_GUIDELINE = [
+  { limit: 100000, fee: 7000 },
+  { limit: 500000, fee: 15000 },
+  { limit: 1000000, fee: 25000 },
+  { limit: 2000000, fee: 35000 },
+  { limit: 5000000, fee: 50000 },
+  {
+    limit: Infinity,
+    fee: 65000,
+    variableRate: 0.005, // + 0.5%
+    threshold: 5000000, // on value above 5M
+  },
+];
+
+/**
+ * Guideline for Bond Registration Attorney Fees.
+ */
+export const BOND_REGISTRATION_FEES_GUIDELINE = [
+  { limit: 100000, fee: 7000 },
+  { limit: 500000, fee: 15000 },
+  { limit: 1000000, fee: 25000 },
+  { limit: 2000000, fee: 35000 },
+  { limit: 5000000, fee: 50000 },
+  {
+    limit: Infinity,
+    fee: 65000,
+    variableRate: 0.005,
+    threshold: 5000000,
+  },
+];
+
+// ==========================================
+// CALCULATION LOGIC
+// ==========================================
 
 /**
  * Calculates the South African transfer duty for a given property value.
- * @param {number} value The purchase price of the property.
- * @returns {number} The calculated transfer duty amount.
+ * Uses TRANSFER_DUTY_BRACKETS_2025 constant.
  */
 export function calculateTransferDuty(value) {
-  if (value <= 1210000) return 0;
-  if (value <= 1663800) return (value - 1210000) * 0.03;
-  if (value <= 2329300) return 13614 + (value - 1663800) * 0.06;
-  if (value <= 2994800) return 53544 + (value - 2329300) * 0.08;
-  if (value <= 13310000) return 106784 + (value - 2994800) * 0.11;
-  return 1241456 + (value - 13310000) * 0.13;
+  const price = Math.max(0, Number(value) || 0);
+
+  // Find the applicable bracket
+  // We look for the first bracket where the price is LESS than or EQUAL to the limit
+  // OR the last bracket if it exceeds all limits (Infinity)
+  let bracketIndex = TRANSFER_DUTY_BRACKETS_2025.findIndex(
+    (b) => price <= b.limit
+  );
+
+  if (bracketIndex === -1) {
+    // Should not happen given Infinity, but safe fallback to last bracket
+    bracketIndex = TRANSFER_DUTY_BRACKETS_2025.length - 1;
+  }
+
+  const bracket = TRANSFER_DUTY_BRACKETS_2025[bracketIndex];
+  const prevBracketLimit =
+    bracketIndex > 0 ? TRANSFER_DUTY_BRACKETS_2025[bracketIndex - 1].limit : 0;
+
+  // Calculation: Base Amount + (Rate * (Value - Previous Limit))
+  const dutiableAmount = Math.max(0, price - prevBracketLimit);
+  const duty = bracket.baseAmount + dutiableAmount * bracket.rate;
+
+  return Math.round(duty);
 }
 
 /**
  * Provides a simplified estimate of conveyancing fees based on property value.
- * This is a guideline and not a formal quote.
+ * Uses CONVEYANCING_FEES_GUIDELINE constant.
  */
 function estimateConveyancingFees(purchasePrice) {
-  if (purchasePrice <= 100000) return 7000;
-  if (purchasePrice <= 500000) return 15000;
-  if (purchasePrice <= 1000000) return 25000;
-  if (purchasePrice <= 2000000) return 35000;
-  if (purchasePrice <= 5000000) return 50000;
-  return 65000 + (purchasePrice - 5000000) * 0.005; // Base + 0.5% of value over 5M
+  const price = Math.max(0, Number(purchasePrice) || 0);
+
+  const bracket =
+    CONVEYANCING_FEES_GUIDELINE.find((b) => price <= b.limit) ||
+    CONVEYANCING_FEES_GUIDELINE[CONVEYANCING_FEES_GUIDELINE.length - 1];
+
+  if (bracket.variableRate) {
+    return bracket.fee + (price - bracket.threshold) * bracket.variableRate;
+  }
+  return bracket.fee;
 }
 
 /**
  * Provides a simplified estimate of bond registration fees based on loan amount.
- * This is a guideline and not a formal quote.
+ * Uses BOND_REGISTRATION_FEES_GUIDELINE constant.
  */
 function estimateBondRegistrationFees(loanAmount) {
-  if (loanAmount <= 100000) return 7000;
-  if (loanAmount <= 500000) return 15000;
-  if (loanAmount <= 1000000) return 25000;
-  if (loanAmount <= 2000000) return 35000;
-  if (loanAmount <= 5000000) return 50000;
-  return 65000 + (loanAmount - 5000000) * 0.005;
+  const amount = Math.max(0, Number(loanAmount) || 0);
+
+  const bracket =
+    BOND_REGISTRATION_FEES_GUIDELINE.find((b) => amount <= b.limit) ||
+    BOND_REGISTRATION_FEES_GUIDELINE[
+      BOND_REGISTRATION_FEES_GUIDELINE.length - 1
+    ];
+
+  if (bracket.variableRate) {
+    return bracket.fee + (amount - bracket.threshold) * bracket.variableRate;
+  }
+  return bracket.fee;
 }
 
 /**
@@ -81,6 +162,8 @@ export function calculateMonthlyRepayment(
 
   return isNaN(monthlyPayment) ? 0 : monthlyPayment;
 }
+
+// ... (Keep the rest of the existing functions for PAYE, Tax, Rental Yield etc. unchanged below)
 
 export function calculatePAYE(
   annualSalary,
@@ -280,8 +363,6 @@ export function calculateMaxAffordableLoan(
   return Math.round(maxLoan);
 }
 
-// ... keep existing code above
-
 // Calculates rental yield metrics.
 export function calculateRentalYield(
   monthlyRent,
@@ -292,10 +373,15 @@ export function calculateRentalYield(
   const annualRentGross = Math.max(0, monthlyRent) * 12;
   const vacancyLoss = annualRentGross * (Math.max(0, vacancyRatePct) / 100);
   const effectiveGrossIncome = Math.max(0, annualRentGross - vacancyLoss);
-  const netOperatingIncome = Math.max(0, effectiveGrossIncome - Math.max(0, annualCosts));
+  const netOperatingIncome = Math.max(
+    0,
+    effectiveGrossIncome - Math.max(0, annualCosts)
+  );
 
-  const grossYieldPct = propertyPrice > 0 ? (annualRentGross / propertyPrice) * 100 : 0;
-  const netYieldPct = propertyPrice > 0 ? (netOperatingIncome / propertyPrice) * 100 : 0;
+  const grossYieldPct =
+    propertyPrice > 0 ? (annualRentGross / propertyPrice) * 100 : 0;
+  const netYieldPct =
+    propertyPrice > 0 ? (netOperatingIncome / propertyPrice) * 100 : 0;
 
   return {
     annualRentGross,
@@ -318,7 +404,8 @@ export function calculatePropertyCGT({
 }) {
   const proceeds = Math.max(0, Number(sellingPrice) || 0);
   const baseCost =
-    Math.max(0, Number(purchasePrice) || 0) + Math.max(0, Number(capitalImprovements) || 0);
+    Math.max(0, Number(purchasePrice) || 0) +
+    Math.max(0, Number(capitalImprovements) || 0);
   const sellingCosts = Math.max(0, Number(otherSellingCosts) || 0);
 
   const grossCapitalGain = Math.max(0, proceeds - baseCost - sellingCosts);
@@ -332,13 +419,20 @@ export function calculatePropertyCGT({
   // Annual exclusion (apply to individuals only for simplicity)
   const ANNUAL_EXCL_INDIV = 40000; // R40,000
   const annualExclusion =
-    taxpayerType === "individual" ? Math.min(ANNUAL_EXCL_INDIV, Math.max(0, grossCapitalGain - primaryResidenceExclusion)) : 0;
+    taxpayerType === "individual"
+      ? Math.min(
+          ANNUAL_EXCL_INDIV,
+          Math.max(0, grossCapitalGain - primaryResidenceExclusion)
+        )
+      : 0;
 
-  const netCapitalGain = Math.max(0, grossCapitalGain - primaryResidenceExclusion - annualExclusion);
+  const netCapitalGain = Math.max(
+    0,
+    grossCapitalGain - primaryResidenceExclusion - annualExclusion
+  );
 
   // SARS inclusion rates (2025/26): Individual 40%, Company 80%, Trust 80% (simplified)
-  const inclusionRate =
-    taxpayerType === "individual" ? 0.4 : 0.8;
+  const inclusionRate = taxpayerType === "individual" ? 0.4 : 0.8;
 
   const includedGain = netCapitalGain * inclusionRate;
 
@@ -366,7 +460,6 @@ export function calculatePropertyCGT({
   };
 }
 
-
 export function calculateEarlySettlementSavings(
   principal,
   annualInterestRate,
@@ -384,7 +477,12 @@ export function calculateEarlySettlementSavings(
 
   if (P <= 0 || rate <= 0 || years <= 0) {
     return {
-      baseline: { monthlyPayment: 0, months: 0, totalInterest: 0, totalPaid: 0 },
+      baseline: {
+        monthlyPayment: 0,
+        months: 0,
+        totalInterest: 0,
+        totalPaid: 0,
+      },
       accelerated: { months: 0, totalInterest: 0, totalPaid: 0 },
       monthsSaved: 0,
       interestSaved: 0,
@@ -473,30 +571,6 @@ export function calculateEarlySettlementSavings(
   };
 }
 
-// ADD BELOW EXISTING EXPORTS
-
-/**
- * Estimate municipal rates clearance/prepaid amount required before property transfer.
- * All params are monthly values in Rand unless stated otherwise.
- *
- * @param {number} rates
- * @param {number} water
- * @param {number} electricity
- * @param {number} refuse
- * @param {number} sanitation
- * @param {number} months               // clearance period in months
- * @param {number} adminFee             // clearance admin/cert fee
- * @param {number} arrears              // outstanding arrears to settle
- * @param {number} credits              // existing credits on account
- * @returns {{
- *   monthlyTotal:number,
- *   prepaidForMonths:number,
- *   adminFee:number,
- *   arrears:number,
- *   credits:number,
- *   totalDue:number
- * }}
- */
 export function calculateRatesClearance(
   rates = 0,
   water = 0,
@@ -533,12 +607,6 @@ export function calculateRatesClearance(
   };
 }
 
-// APPEND BELOW EXISTING EXPORTS
-
-/**
- * Generate full amortization schedule with optional extra monthly repayment.
- * Returns { payment, schedule, totals }
- */
 export function generateAmortizationSchedule(
   principal,
   annualInterestRate,
@@ -551,7 +619,11 @@ export function generateAmortizationSchedule(
   const extra = Math.max(0, Number(extraMonthly) || 0);
 
   if (P <= 0 || r <= 0 || n <= 0) {
-    return { payment: 0, schedule: [], totals: { months: 0, interest: 0, paid: 0 } };
+    return {
+      payment: 0,
+      schedule: [],
+      totals: { months: 0, interest: 0, paid: 0 },
+    };
   }
 
   // Standard monthly repayment (without extra)
@@ -603,17 +675,6 @@ export function generateAmortizationSchedule(
   };
 }
 
-// APPEND AT END
-
-/**
- * Sectional Title Levy share calculator.
- * totalLevy: monthly levy total for the scheme
- * totalPQ: total participation quota of the scheme (often 10,000)
- * unitPQ: your unit's participation quota
- * specialLevy: optional special levy amount for the scheme (total)
- * specialMode: 'pq' to split by PQ, 'equal' to split equally per unit (requires unitsCount)
- * unitsCount: number of units in the scheme (needed if specialMode === 'equal')
- */
 export function calculateSectionalTitleLevyShare({
   totalLevy = 0,
   totalPQ = 10000,
@@ -628,9 +689,8 @@ export function calculateSectionalTitleLevyShare({
   const SL = Math.max(0, Number(specialLevy) || 0);
   const UC = Math.max(1, Number(unitsCount) || 1);
 
-  const baseMonthly = (TL * (UPQ / TPQ)) || 0;
-  const specialPerUnit =
-    specialMode === "equal" ? (SL / UC) : (SL * (UPQ / TPQ));
+  const baseMonthly = TL * (UPQ / TPQ) || 0;
+  const specialPerUnit = specialMode === "equal" ? SL / UC : SL * (UPQ / TPQ);
   const totalDue = baseMonthly + specialPerUnit;
 
   return {
@@ -641,25 +701,6 @@ export function calculateSectionalTitleLevyShare({
   };
 }
 
-// APPEND AT END
-
-/**
- * Break-even analysis calculator
- * @param {object} p
- * @param {number} p.pricePerUnit        Selling price per unit
- * @param {number} p.variableCostPerUnit Variable cost per unit
- * @param {number} p.fixedCosts          Total fixed costs (period)
- * @param {number} [p.expectedUnits]     Optional expected units to evaluate profit and margin of safety
- * @returns {{
- *  contributionPerUnit:number,
- *  contributionMarginRatio:number,
- *  breakEvenUnits:number,
- *  breakEvenRevenue:number,
- *  profitAtExpected:number,
- *  marginOfSafetyUnits:number,
- *  marginOfSafetyPct:number
- * }}
- */
 export function calculateBreakEven({
   pricePerUnit,
   variableCostPerUnit,
@@ -698,19 +739,6 @@ export function calculateBreakEven({
   };
 }
 
-// APPEND AT END
-
-/**
- * Simple ROI calculator (approximate CAGR). Useful for quick project feasibility.
- * Inputs:
- * - initialInvestment: upfront cash outlay (>0)
- * - annualRevenue and annualCosts: optional; if provided, netProfit = annualRevenue - annualCosts
- * - annualNetProfit: optional direct input if revenue/costs not provided
- * - years: holding period in years (>0)
- * - salvageValue: one-off proceeds at end (default 0)
- *
- * Returns simple ROI %, annualized ROI %, totalNetGain, paybackYears, paybackMonths, profitMarginPct (if revenue provided)
- */
 export function calculateROI({
   initialInvestment,
   annualRevenue = 0,
@@ -725,27 +753,27 @@ export function calculateROI({
 
   const rev = Math.max(0, Number(annualRevenue) || 0);
   const cost = Math.max(0, Number(annualCosts) || 0);
-  const net = annualNetProfit !== null && annualNetProfit !== undefined
-    ? Number(annualNetProfit) || 0
-    : rev - cost;
+  const net =
+    annualNetProfit !== null && annualNetProfit !== undefined
+      ? Number(annualNetProfit) || 0
+      : rev - cost;
 
   const totalProfit = Math.max(0, net) * Y;
   const totalNetGain = Math.max(0, totalProfit + salv - I);
 
   const simpleROIPct = I > 0 ? (totalNetGain / I) * 100 : 0;
 
-  // Approximate CAGR from simple ROI over Y years
   const annualizedROIPct =
-    I > 0 && Y > 0
-      ? (Math.pow(1 + (simpleROIPct / 100), 1 / Y) - 1) * 100
-      : 0;
+    I > 0 && Y > 0 ? (Math.pow(1 + simpleROIPct / 100, 1 / Y) - 1) * 100 : 0;
 
-  // Payback period based on annual net profit only (ignores salvage)
   const paybackYearsFloat = net > 0 ? I / net : 0;
   const paybackYears = Math.floor(paybackYearsFloat);
-  const paybackMonths = Math.max(0, Math.round((paybackYearsFloat - paybackYears) * 12));
+  const paybackMonths = Math.max(
+    0,
+    Math.round((paybackYearsFloat - paybackYears) * 12)
+  );
 
-  const profitMarginPct = rev > 0 ? ((net) / rev) * 100 : null;
+  const profitMarginPct = rev > 0 ? (net / rev) * 100 : null;
 
   return {
     totalNetGain,
@@ -758,29 +786,6 @@ export function calculateROI({
   };
 }
 
-// APPEND AT END
-
-/**
- * Cash runway simulator (monthly buckets with AR/AP delays).
- * Simulates month-by-month until cash runs out or maxMonths reached.
- *
- * @param {object} p
- * @param {number} p.startingCash                 Opening cash balance (R)
- * @param {number} p.monthlyRevenue               Current monthly revenue (excl VAT)
- * @param {number} p.revenueGrowthPct             Monthly revenue growth (%)
- * @param {number} p.grossMarginPct               Gross margin on revenue (%), used to derive COGS
- * @param {number} p.monthlyOperatingCosts        Current monthly operating costs (excl COGS)
- * @param {number} p.costGrowthPct                Monthly opex growth (%)
- * @param {number} p.arDays                       Average debtor days (Accounts Receivable)
- * @param {number} p.apDays                       Average creditor days (Accounts Payable)
- * @param {number} [p.maxMonths=240]             Safety cap on simulation length (months)
- * @returns {{
- *  runwayMonths:number,                       // fractional months to cash-out (Infinity if never)
- *  depleted:boolean,                          // true if cash hits zero before cap
- *  breakEvenMonth:number|null,                // first month with operating cashflow >= 0 (before AR/AP)
- *  series:Array<{month:number, cash:number, inflow:number, outflow:number, revenue:number, opex:number, cogs:number}>
- * }}
- */
 export function calculateCashRunway({
   startingCash,
   monthlyRevenue,
@@ -802,33 +807,28 @@ export function calculateCashRunway({
   const arDelay = Math.max(0, Math.round((Number(arDays) || 0) / 30));
   const apDelay = Math.max(0, Math.round((Number(apDays) || 0) / 30));
 
-  // Queues to model AR/AP timing (month-indexed buckets)
-  const inflowQ = []; // cash receipts of revenue (at margin level or full? Cash receipts are revenue)
-  const outflowQ = []; // cash payments (COGS + OPEX)
+  const inflowQ = [];
+  const outflowQ = [];
 
   let cash = cash0;
   const series = [];
   let breakEvenMonth = null;
   let depleted = false;
-  let tDeplete = Infinity; // fractional month of depletion
+  let tDeplete = Infinity;
 
   for (let m = 1; m <= maxMonths; m++) {
-    // Accrual view for this month
     const cogs = rev * (1 - gm);
     const opexNow = opex;
 
-    // Determine this month's inflow/outflow that hit cash (from prior queued)
-    const inflow = (inflowQ[m] || 0);
-    const outflow = (outflowQ[m] || 0);
+    const inflow = inflowQ[m] || 0;
+    const outflow = outflowQ[m] || 0;
 
-    // Push new accrual amounts into queues with delays
     const inflowMonth = m + arDelay;
     const outflowMonth = m + apDelay;
 
-    inflowQ[inflowMonth] = (inflowQ[inflowMonth] || 0) + rev; // collect revenue after AR delay
-    outflowQ[outflowMonth] = (outflowQ[outflowMonth] || 0) + (cogs + opexNow); // pay costs after AP delay
+    inflowQ[inflowMonth] = (inflowQ[inflowMonth] || 0) + rev;
+    outflowQ[outflowMonth] = (outflowQ[outflowMonth] || 0) + (cogs + opexNow);
 
-    // Apply this month's net cash movement
     const netCash = inflow - outflow;
     const prevCash = cash;
     cash = prevCash + netCash;
@@ -843,24 +843,19 @@ export function calculateCashRunway({
       cogs,
     });
 
-    // Determine operational break-even (before AR/AP timing): when margin - opex >= 0
     if (breakEvenMonth === null) {
-      const opCF = (rev - cogs) - opexNow; // contribution minus opex
+      const opCF = rev - cogs - opexNow;
       if (opCF >= 0) breakEvenMonth = m;
     }
 
-    // If cash crosses below zero this month, estimate fractional part
     if (cash <= 0) {
       depleted = true;
-      // Linear interpolation within month using netCash
-      // cash_end = cash_start + netCash; find alpha where cash crosses zero:
-      // 0 = prevCash + alpha * netCash => alpha = -prevCash / netCash
-      const alpha = netCash !== 0 ? Math.min(1, Math.max(0, -prevCash / netCash)) : 0;
-      tDeplete = (m - 1) + alpha;
+      const alpha =
+        netCash !== 0 ? Math.min(1, Math.max(0, -prevCash / netCash)) : 0;
+      tDeplete = m - 1 + alpha;
       break;
     }
 
-    // Grow rev/opex for next month
     rev = Math.max(0, rev * (1 + gRev));
     opex = Math.max(0, opex * (1 + gOpex));
   }
@@ -875,19 +870,6 @@ export function calculateCashRunway({
   };
 }
 
-// APPEND AT END
-
-/**
- * Fix & Flip profit calculator.
- * purchasePrice: acquisition price
- * rehabCosts: renovation / improvement costs (all in)
- * holdingMonths: months from purchase to resale
- * monthlyHoldingCosts: rates, levies, insurance, interest (cash estimate) per month
- * sellingPrice: resale price
- * sellingCostsPct: % of selling price for agent + other selling costs (ex VAT) (e.g. 0.05 = 5%)
- * extraSellingCosts: absolute Rand extra selling costs (compliance, staging etc.)
- * Notes: Uses existing calculateTransferDuty for acquisition tax; assumes buyer pays duty.
- */
 export function calculateFixFlipProfit({
   purchasePrice = 0,
   rehabCosts = 0,
@@ -924,18 +906,17 @@ export function calculateFixFlipProfit({
   }
 
   const transferDuty = calculateTransferDuty(P);
-  // Simple conveyancing + sundries estimate reuse existing once-off logic
   const onceOff = calculateOnceOffCosts(P, 0);
-  // Remove bond registration (assume cash flip) and keep transfer duty from dedicated function for accuracy
   const conveyancingEst = onceOff.conveyancingFees;
   const sundriesEst = Math.max(
     0,
     onceOff.totalOnceOffCosts -
-      (onceOff.transferDuty + onceOff.conveyancingFees + onceOff.bondRegistrationFees)
+      (onceOff.transferDuty +
+        onceOff.conveyancingFees +
+        onceOff.bondRegistrationFees)
   );
 
-  const acquisitionCosts =
-    transferDuty + conveyancingEst + sundriesEst + R;
+  const acquisitionCosts = transferDuty + conveyancingEst + sundriesEst + R;
 
   const holdingCostTotal = HM * MHC;
 
@@ -948,7 +929,7 @@ export function calculateFixFlipProfit({
   const grossProfit = SP - P;
   const netProfit = SP - totalCost;
 
-  const investedCapital = P + acquisitionCosts + holdingCostTotal; // excluding selling costs (incur on exit)
+  const investedCapital = P + acquisitionCosts + holdingCostTotal;
   const roiPct = investedCapital > 0 ? (netProfit / investedCapital) * 100 : 0;
   const annualizedRoiPct =
     investedCapital > 0 && HM > 0

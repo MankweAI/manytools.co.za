@@ -2,12 +2,13 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
 import { supabase } from "../../../utils/supabaseClient";
 import {
   calculateMonthlyRepayment,
   calculateOnceOffCosts,
 } from "../../../utils/calculation";
+import { useCalculatorParams } from "../../../hooks/useCalculatorParams"; // Ensure this path matches your folder structure
+import DynamicFAQ from "../DynamicFAQ"; // Import the new component
 
 const DonutChart = ({ principal, interest }) => {
   const total = principal + interest;
@@ -49,23 +50,23 @@ const DonutChart = ({ principal, interest }) => {
   );
 };
 
-function CalculatorContent() {
-  const searchParams = useSearchParams();
+function CalculatorContent({ defaults }) {
+  // 1. Use Custom Hook for URL State Management
+  const [purchasePrice, setPurchasePrice] = useCalculatorParams(
+    "price",
+    defaults?.price || 1500000
+  );
+  const [deposit, setDeposit] = useCalculatorParams(
+    "deposit",
+    defaults?.deposit || 0
+  );
+  const [interestRate, setInterestRate] = useCalculatorParams(
+    "rate",
+    defaults?.interestRate || 11.75
+  );
+  const [loanTerm, setLoanTerm] = useCalculatorParams("term", 20);
 
-  // Initialize state with URL params if they exist, otherwise default
-  const [purchasePrice, setPurchasePrice] = useState(() => {
-    const paramPrice = searchParams.get("price");
-    return paramPrice ? Number(paramPrice) : 1650000;
-  });
-
-  const [deposit, setDeposit] = useState(() => {
-    const paramDeposit = searchParams.get("deposit");
-    return paramDeposit ? Number(paramDeposit) : 165000;
-  });
-
-  const [interestRate, setInterestRate] = useState(11.75);
-  const [loanTerm, setLoanTerm] = useState(20);
-
+  // 2. Derived State
   const loanAmount = useMemo(
     () => Math.max(0, purchasePrice - deposit),
     [purchasePrice, deposit]
@@ -338,16 +339,24 @@ function CalculatorContent() {
           )}
         </div>
       </div>
+
+      {/* 3. Inject Dynamic FAQ */}
+      <DynamicFAQ
+        purchasePrice={purchasePrice}
+        loanAmount={loanAmount}
+        monthlyRepayment={monthlyRepayment}
+        interestRate={interestRate}
+      />
     </div>
   );
 }
 
-export default function BondCalculator() {
+export default function BondCalculator(props) {
   return (
     <Suspense
       fallback={<div className="p-8 text-center">Loading Calculator...</div>}
     >
-      <CalculatorContent />
+      <CalculatorContent {...props} />
     </Suspense>
   );
 }

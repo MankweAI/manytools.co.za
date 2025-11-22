@@ -1,11 +1,15 @@
 // FILE: app/property/bond-repayment-calculator/page.js
 import BondCalculator from "../../components/property/BondCalculator";
 import NextSteps from "../../components/NextSteps";
+import ProFeatures from "../../components/ProFeatures";
 
 export const metadata = {
   title: "Bond Repayment Calculator | Free Home Loan Calculator South Africa",
   description:
     "Calculate your monthly bond repayments with our free home loan calculator for South Africa. See the total interest paid and view a full amortization schedule.",
+  alternates: {
+    canonical: "https://manytools.co.za/property/bond-repayment-calculator",
+  },
 };
 
 const jsonLd = {
@@ -28,24 +32,12 @@ const jsonLd = {
 };
 
 export default function BondRepaymentCalculatorPage() {
-  const faqs = [
-    {
-      q: "What is a bond repayment?",
-      a: "A bond repayment is the monthly amount you pay back to the bank for your home loan. It consists of two parts: the principal (the amount you borrowed) and the interest (the bank's charge for lending you the money).",
-    },
-    {
-      q: "How is the interest rate determined?",
-      a: "Your interest rate is usually linked to the Prime lending rate in South Africa. Banks will offer you a rate of 'Prime plus/minus X%', based on your credit profile and the size of your deposit.",
-    },
-    {
-      q: "What is an amortization schedule?",
-      a: "An amortization schedule is a table that shows each monthly payment over the life of your loan, breaking down how much of each payment goes towards principal versus interest. It shows you exactly how your loan balance decreases over time.",
-    },
-    {
-      q: "Can I pay extra into my bond?",
-      a: "Yes, and it's a great idea! Paying even a small extra amount each month can significantly reduce your loan term and the total amount of interest you pay. This is a powerful way to save money over the long run.",
-    },
-  ];
+  // This configuration can be changed for different persona pages
+  const defaultSettings = {
+    price: 1500000,
+    deposit: 0,
+    interestRate: 11.75,
+  };
 
   return (
     <main className="bg-slate-50 min-h-screen font-sans">
@@ -66,87 +58,60 @@ export default function BondRepaymentCalculatorPage() {
 
         <div className="space-y-16">
           <section id="calculator-section">
-            <BondCalculator />
+            <BondCalculator defaults={defaultSettings} />
           </section>
 
+          {/* SEMANTIC SEO: DEFINITION PROTOCOL */}
           <section
             id="definitions"
-            className="prose prose-slate max-w-none bg-white p-8 rounded-2xl border border-zinc-200 shadow-sm"
+            className="bg-white p-8 rounded-2xl border border-zinc-200 shadow-sm"
           >
-            <h2 className="text-2xl font-bold text-zinc-800 not-prose mb-6">
+            <h2 className="text-2xl font-bold text-zinc-800 mb-6">
               Key Mortgage Definitions
             </h2>
-            <dl className="grid sm:grid-cols-2 gap-x-8 gap-y-4">
-              <div>
-                <dt className="font-bold text-emerald-700">Principal Debt</dt>
-                <dd className="text-zinc-600">
+            <dl className="grid sm:grid-cols-2 gap-x-8 gap-y-6">
+              <div className="p-4 bg-slate-50 rounded-lg">
+                <dt className="font-bold text-emerald-700 mb-2">
+                  Principal Debt
+                </dt>
+                <dd className="text-zinc-600 text-sm leading-relaxed">
                   The original amount of money borrowed from the bank to
-                  purchase your property, excluding interest.
+                  purchase your property, excluding interest. This is usually
+                  the Purchase Price minus your Deposit.
                 </dd>
               </div>
-              <div>
-                <dt className="font-bold text-emerald-700">Amortization</dt>
-                <dd className="text-zinc-600">
+              <div className="p-4 bg-slate-50 rounded-lg">
+                <dt className="font-bold text-emerald-700 mb-2">
+                  Amortization
+                </dt>
+                <dd className="text-zinc-600 text-sm leading-relaxed">
                   The process of paying off a debt over time through regular
                   payments. A portion of each payment is for interest and the
                   remaining amount is applied to the principal balance.
                 </dd>
               </div>
-              <div>
-                <dt className="font-bold text-emerald-700">
+              <div className="p-4 bg-slate-50 rounded-lg">
+                <dt className="font-bold text-emerald-700 mb-2">
                   Variable Interest Rate
                 </dt>
-                <dd className="text-zinc-600">
+                <dd className="text-zinc-600 text-sm leading-relaxed">
                   An interest rate that fluctuates with the South African Prime
                   Lending Rate (Repo Rate). If the Prime rate goes up, your
                   repayment increases.
                 </dd>
               </div>
-              <div>
-                <dt className="font-bold text-emerald-700">
+              <div className="p-4 bg-slate-50 rounded-lg">
+                <dt className="font-bold text-emerald-700 mb-2">
                   Bond Registration Costs
                 </dt>
-                <dd className="text-zinc-600">
+                <dd className="text-zinc-600 text-sm leading-relaxed">
                   Fees paid to the registering attorney to register the bond at
-                  the Deeds Office. This is separate from Transfer Duty.
+                  the Deeds Office. This is separate from Transfer Duty and is
+                  typically calculated on a sliding scale based on the loan
+                  amount.
                 </dd>
               </div>
             </dl>
-          </section>
-
-          <section id="faq">
-            <h2 className="text-2xl font-bold text-zinc-800 mb-4">
-              Frequently Asked Questions
-            </h2>
-            <div className="space-y-4">
-              {faqs.map((faq, index) => (
-                <details
-                  key={index}
-                  className="bg-white p-6 rounded-lg shadow-sm border border-zinc-200 group"
-                  open={index === 0}
-                >
-                  <summary className="font-semibold text-lg text-zinc-800 cursor-pointer list-none flex justify-between items-center">
-                    {faq.q}
-                    <div className="text-zinc-500 transition-transform duration-200 group-open:rotate-180">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="m6 9 6 6 6-6" />
-                      </svg>
-                    </div>
-                  </summary>
-                  <p className="mt-4 text-zinc-600">{faq.a}</p>
-                </details>
-              ))}
-            </div>
           </section>
 
           <section>
