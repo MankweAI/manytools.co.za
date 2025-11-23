@@ -13,6 +13,9 @@ export default function Calculator() {
   const [isLoading, setIsLoading] = useState(false);
 
   const logEvent = async (eventName, value) => {
+    // Safety check: Don't log if Supabase keys aren't set
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return;
+
     try {
       const { error } = await supabase
         .from("transfer_duty_calculator_events")
@@ -23,10 +26,16 @@ export default function Calculator() {
           },
         ]);
       if (error) {
-        console.error("Supabase logging error:", error.message);
+        // Optional: Only log detailed errors in development
+        if (process.env.NODE_ENV === 'development') {
+          console.warn("Supabase logging failed:", error.message);
+        }
       }
     } catch (error) {
-      console.error("Error in logEvent function:", error.message);
+      // Silent fail or warn
+      if (process.env.NODE_ENV === 'development') {
+        console.warn("Analytics error:", error.message);
+      }
     }
   };
 
