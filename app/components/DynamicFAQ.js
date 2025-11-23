@@ -24,7 +24,7 @@ export default function DynamicFAQ({
       <div className="space-y-4">
         <details className="group bg-slate-50 p-4 rounded-lg" open>
           <summary className="flex justify-between items-center font-semibold text-slate-800 cursor-pointer list-none">
-            <span>How much is the repayment on {fmt(loanAmount)}?</span>
+            <span> How much is the repayment on {fmt(loanAmount)}?</span>
             <span className="transition group-open:rotate-180">
               <svg
                 fill="none"

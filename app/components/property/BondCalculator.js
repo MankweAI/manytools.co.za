@@ -7,8 +7,8 @@ import {
   calculateMonthlyRepayment,
   calculateOnceOffCosts,
 } from "../../../utils/calculation";
-import { useCalculatorParams } from "../../../hooks/useCalculatorParams"; // Ensure this path matches your folder structure
-import DynamicFAQ from "../DynamicFAQ"; // Import the new component
+import { useCalculatorParams } from "../../../hooks/useCalculatorParams";
+import DynamicFAQ from "../DynamicFAQ";
 
 const DonutChart = ({ principal, interest }) => {
   const total = principal + interest;
@@ -51,7 +51,6 @@ const DonutChart = ({ principal, interest }) => {
 };
 
 function CalculatorContent({ defaults }) {
-  // 1. Use Custom Hook for URL State Management
   const [purchasePrice, setPurchasePrice] = useCalculatorParams(
     "price",
     defaults?.price || 1500000
@@ -66,7 +65,6 @@ function CalculatorContent({ defaults }) {
   );
   const [loanTerm, setLoanTerm] = useCalculatorParams("term", 20);
 
-  // 2. Derived State
   const loanAmount = useMemo(
     () => Math.max(0, purchasePrice - deposit),
     [purchasePrice, deposit]
@@ -77,12 +75,16 @@ function CalculatorContent({ defaults }) {
   const [totalInterest, setTotalInterest] = useState(0);
   const [onceOffCosts, setOnceOffCosts] = useState(null);
 
-  const formatNumber = (num, decimals = 0) => {
-    if (isNaN(num) || num === null) return "0";
-    return num.toLocaleString("en-ZA", {
-      minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals,
-    });
+  // FIX: Deterministic formatter to prevent Hydration Mismatch (0.00 vs 0,00)
+  const formatNumber = (n, d = 0) => {
+    if (n === null || n === undefined || Number.isNaN(n)) return "0";
+    const neg = n < 0 ? "-" : "";
+    const abs = Math.abs(Number(n));
+    const fixed = abs.toFixed(d);
+    const [i, dec] = fixed.split(".");
+    // Enforce comma for thousands, dot for decimal explicitly
+    const withThousands = i.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return d ? `${neg}${withThousands}.${dec}` : `${neg}${withThousands}`;
   };
 
   const handleCalculate = useCallback(() => {
@@ -143,7 +145,6 @@ function CalculatorContent({ defaults }) {
 
   return (
     <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-zinc-200">
-      {/* Main Results */}
       <div className="text-center mb-8">
         <p className="text-base font-medium text-zinc-600">
           Estimated Monthly Repayment
@@ -154,7 +155,6 @@ function CalculatorContent({ defaults }) {
       </div>
 
       <div className="grid lg:grid-cols-2 gap-8 items-start">
-        {/* Left Column: Inputs */}
         <div className="space-y-6">
           <div>
             <label
@@ -267,7 +267,6 @@ function CalculatorContent({ defaults }) {
           </div>
         </div>
 
-        {/* Right Column: Breakdowns */}
         <div className="space-y-4">
           <div className="bg-emerald-50 p-6 rounded-2xl border border-emerald-200">
             <h3 className="font-semibold text-zinc-800 text-center mb-4">
@@ -340,7 +339,6 @@ function CalculatorContent({ defaults }) {
         </div>
       </div>
 
-      {/* 3. Inject Dynamic FAQ */}
       <DynamicFAQ
         purchasePrice={purchasePrice}
         loanAmount={loanAmount}

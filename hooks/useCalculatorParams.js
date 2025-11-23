@@ -1,16 +1,12 @@
 // FILE: hooks/useCalculatorParams.js
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
 
 /**
  * Custom hook to sync calculator state with URL query parameters.
- * * @param {string} key - The query parameter key (e.g., 'price', 'deposit')
- * @param {any} defaultValue - The default value if param is missing
- * @param {string} type - 'number' | 'string' | 'boolean'
- * @param {number} delay - Debounce delay in ms (default 500ms)
- * @returns {[any, Function]} - [value, setValue] interface compatible with useState
+ * HYDRATION SAFE: Initializes with default value, then syncs with URL on client.
  */
 export function useCalculatorParams(
   key,
@@ -21,30 +17,41 @@ export function useCalculatorParams(
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
-  // 1. Initialize state from URL if present, else default
-  const [innerValue, setInnerValue] = useState(() => {
-    if (typeof window === "undefined") return defaultValue; // SSR safety
+  // 1. Initialize STRICTLY with defaultValue to ensure Server/Client match on first render.
+  const [innerValue, setInnerValue] = useState(defaultValue);
+  const isMounted = useRef(false);
 
-    const param = searchParams.get(key);
-    if (param === null || param === undefined) return defaultValue;
-
-    if (type === "number") {
-      const num = Number(param);
-      return isNaN(num) ? defaultValue : num;
-    }
-    if (type === "boolean") return param === "true";
-
-    return param;
-  });
-
-  // 2. Sync state to URL with debounce
+  // 2. Hydrate state from URL query params (Client-Side Only)
   useEffect(() => {
-    const timer = setTimeout(() => {
-      // Create new URLSearchParams object based on current params
-      const current = new URLSearchParams(Array.from(searchParams.entries()));
+    if (!isMounted.current) {
+      const param = searchParams.get(key);
+      if (param !== null && param !== undefined) {
+        if (type === "number") {
+          const num = Number(param);
+          if (!isNaN(num)) setInnerValue(num);
+        } else if (type === "boolean") {
+          setInnerValue(param === "true");
+        } else {
+          setInnerValue(param);
+        }
+      }
+      isMounted.current = true;
+    }
+  }, [searchParams, key, type]);
 
-      // Update or Delete the specific key
-      // We remove the param if it matches the default to keep URLs clean
+  // 3. Sync state changes back to URL (Write)
+  useEffect(() => {
+    // Skip the write-back on the very first render/hydration to prevent overwriting URL
+    if (!isMounted.current) return;
+
+    const timer = setTimeout(() => {
+      const current = new URLSearchParams(Array.from(searchParams.entries()));
+      const strValue = String(innerValue);
+
+      // Optimization: Don't write if the URL already matches the state
+      if (current.get(key) === strValue) return;
+
+      // Logic: Remove param if it matches default (clean URL), else set it
       if (
         innerValue === defaultValue ||
         innerValue === "" ||
@@ -52,15 +59,13 @@ export function useCalculatorParams(
       ) {
         current.delete(key);
       } else {
-        current.set(key, String(innerValue));
+        current.set(key, strValue);
       }
 
-      // Construct new query string
       const search = current.toString();
       const query = search ? `?${search}` : "";
-
-      // Update URL without navigation (prevents flicker and history stack bloat)
       const newUrl = `${pathname}${query}`;
+
       window.history.replaceState(null, "", newUrl);
     }, delay);
 
