@@ -26,15 +26,15 @@ export default function HomePage() {
       <section className="relative bg-slate-900 text-white overflow-hidden">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-slate-900/90 z-10"></div>
-          {/* Replace '/hero-bg.jpg' with your actual image path in public folder */}
           <Image
-            src="/image/hero-bg.png"
+            src="/image/hero-bg.png" // Ensure this file exists in your 'public' folder
             alt="South African Property Market"
             fill
-            className="object-cover opacity-30"
+            className="object-cover"
             priority
           />
+          {/* Overlay: Sits ON TOP of image to darken it for text readability */}
+          <div className="absolute inset-0 bg-slate-900/80 z-10"></div>
         </div>
 
         <div className="relative z-20 max-w-5xl mx-auto px-4 py-24 sm:py-32 text-center">
