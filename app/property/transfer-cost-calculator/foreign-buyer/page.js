@@ -120,7 +120,7 @@ export default function ForeignBuyerPage() {
                 <dt className="font-bold text-orange-900 mb-2">Transfer Duty</dt>
                 <dd className="text-slate-600 text-sm leading-relaxed">
                   A government tax on properties over R1.1 million. It applies
-                  equally to everyone. There is no "foreigner surcharge" on
+                  equally to everyone. There is no &quot;foreigner surcharge&quot; on
                   property tax in South Africa.
                 </dd>
               </div>
@@ -135,7 +135,7 @@ export default function ForeignBuyerPage() {
               <div className="p-4 bg-orange-50 rounded-lg">
                 <dt className="font-bold text-orange-900 mb-2">Deal Receipt</dt>
                 <dd className="text-slate-600 text-sm leading-relaxed">
-                  Ensure you keep the "Deal Receipt" from the bank when bringing
+                  Ensure you keep the &quot;Deal Receipt&quot; from the bank when bringing
                   money into SA. You will need this proof to repatriate your funds
                   (and any profit) when you eventually sell.
                 </dd>

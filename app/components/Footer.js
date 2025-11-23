@@ -14,7 +14,7 @@ export default function Footer() {
                         </span>
                     </Link>
                     <p className="text-sm leading-relaxed text-slate-400 mb-6">
-                        South Africa's most accurate, free, and privacy-first property and tax calculators. Built to help you make smarter financial decisions.
+                        South Africa&apos;s most accurate, free, and privacy-first property and tax calculators. Built to help you make smarter financial decisions.
                     </p>
                     <p className="text-xs text-slate-600">
                         &copy; {new Date().getFullYear()} ManyTools SA. All rights reserved.

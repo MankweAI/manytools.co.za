@@ -111,7 +111,7 @@ export default function UpgradingPage() {
                   72-Hour Clause
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
-                  If you make a "Subject to Sale" offer, the seller can usually
+                  If you make a &quot;Subject to Sale&quot; offer, the seller can usually
                   continue marketing the property. If they get a cash offer,
                   they must give you 72 hours to waive your condition (sell your
                   house fast) or lose the deal.

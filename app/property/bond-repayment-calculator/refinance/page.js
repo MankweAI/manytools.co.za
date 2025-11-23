@@ -91,7 +91,7 @@ export default function RefinancePage() {
                   Penalty Interest
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
-                  If you don't give your current bank 90 days' notice of your
+                  If you don&apos;t give your current bank 90 days&apos; notice of your
                   intention to cancel the bond, they are entitled to charge you
                   90 days of penalty interest on your outstanding balance.
                 </dd>
@@ -101,7 +101,7 @@ export default function RefinancePage() {
                   Equity Release (Cash Out)
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
-                  Accessing the difference between your property's current value
+                  Accessing the difference between your property&apos;s current value
                   and your outstanding bond. This cash is often the cheapest
                   financing available for renovations or debt consolidation.
                 </dd>
@@ -121,7 +121,7 @@ export default function RefinancePage() {
                   Bond Registration
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
-                  Even though you aren't moving house, a new bond must be
+                  Even though you aren&apos;t moving house, a new bond must be
                   registered at the Deeds Office. This incurs attorney fees,
                   though transfer duty is not applicable.
                 </dd>

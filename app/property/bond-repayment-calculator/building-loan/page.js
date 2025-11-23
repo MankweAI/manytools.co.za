@@ -114,8 +114,8 @@ export default function BuildingLoanPage() {
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
                   The bank often holds back the final payment (e.g., 5-10%)
-                  until the house is fully complete and you have signed a "Happy
-                  Letter" confirming you are satisfied with the quality.
+                  until the house is fully complete and you have signed a &quot;Happy
+                  Letter&quot; confirming you are satisfied with the quality.
                 </dd>
               </div>
               <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
@@ -123,8 +123,8 @@ export default function BuildingLoanPage() {
                   Turnkey vs. Owner Builder
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
-                  Banks prefer "Turnkey" projects (a developer builds it for a
-                  fixed price). "Owner Builder" loans (where you manage
+                  Banks prefer &quot;Turnkey&quot; projects (a developer builds it for a
+                  fixed price). &quot;Owner Builder&quot; loans (where you manage
                   subcontractors) are very difficult to get approved without
                   high cash reserves.
                 </dd>

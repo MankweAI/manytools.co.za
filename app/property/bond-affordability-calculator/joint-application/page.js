@@ -118,7 +118,7 @@ export default function JointApplicationPage() {
                 <dt className="font-bold text-orange-900 mb-2">Main Applicant</dt>
                 <dd className="text-slate-600 text-sm leading-relaxed">
                   Usually the person with the higher income. The bank often uses
-                  this person's primary bank account for the debit order, though
+                  this person&apos;s primary bank account for the debit order, though
                   you can nominate a joint account.
                 </dd>
               </div>
@@ -127,8 +127,8 @@ export default function JointApplicationPage() {
                   Community of Property
                 </dt>
                 <dd className="text-slate-600 text-sm leading-relaxed">
-                  A marital regime where both spouses' estates are merged. You
-                  generally cannot buy property alone; your spouse's written
+                  A marital regime where both spouses&apos; estates are merged. You
+                  generally cannot buy property alone; your spouse&apos;s written
                   consent and signature are required.
                 </dd>
               </div>

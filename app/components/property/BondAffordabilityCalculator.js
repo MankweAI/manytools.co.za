@@ -1,7 +1,7 @@
 // FILE: app/components/property/BondAffordabilityCalculator.js
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, Suspense } from "react";
 import { supabase } from "../../../utils/supabaseClient";
 import {
   calculateMaxAffordableLoan,
@@ -9,7 +9,7 @@ import {
 } from "../../../utils/calculation";
 import { useCalculatorParams } from "../../../hooks/useCalculatorParams";
 
-export default function BondAffordabilityCalculator({ defaults }) {
+function CalculatorContent({ defaults }) {
   // 1. Configuration State
   const [isJoint, setIsJoint] = useState(defaults?.isJoint || false);
 
@@ -104,8 +104,8 @@ export default function BondAffordabilityCalculator({ defaults }) {
           <button
             onClick={() => setIsJoint(false)}
             className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${!isJoint
-                ? "bg-white text-stone-800 shadow-sm"
-                : "text-stone-500 hover:text-stone-700"
+              ? "bg-white text-stone-800 shadow-sm"
+              : "text-stone-500 hover:text-stone-700"
               }`}
           >
             Single Applicant
@@ -113,8 +113,8 @@ export default function BondAffordabilityCalculator({ defaults }) {
           <button
             onClick={() => setIsJoint(true)}
             className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${isJoint
-                ? "bg-white text-stone-800 shadow-sm"
-                : "text-stone-500 hover:text-stone-700"
+              ? "bg-white text-stone-800 shadow-sm"
+              : "text-stone-500 hover:text-stone-700"
               }`}
           >
             Joint Application
@@ -278,5 +278,15 @@ export default function BondAffordabilityCalculator({ defaults }) {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function BondAffordabilityCalculator(props) {
+  return (
+    <Suspense
+      fallback={<div className="p-8 text-center">Loading Calculator...</div>}
+    >
+      <CalculatorContent {...props} />
+    </Suspense>
   );
 }

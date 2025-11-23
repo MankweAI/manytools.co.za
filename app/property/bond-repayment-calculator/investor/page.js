@@ -102,7 +102,7 @@ export default function InvestorPage() {
                   Cash Flow Positive
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
-                  The "Holy Grail" of investing: when your rental income covers
+                  The &quot;Holy Grail&quot; of investing: when your rental income covers
                   all expenses and leaves you with surplus cash every month. Often
                   requires a 20-30% deposit.
                 </dd>

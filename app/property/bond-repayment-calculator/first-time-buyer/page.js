@@ -93,7 +93,7 @@ export default function FirstTimeBuyerPage() {
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
                   A home loan where the bank lends you the full purchase price
-                  of the property. You don't pay any deposit upfront, but your
+                  of the property. You don&apos;t pay any deposit upfront, but your
                   monthly repayment will be higher because the loan amount is
                   larger.
                 </dd>
@@ -103,7 +103,7 @@ export default function FirstTimeBuyerPage() {
                   FLISP Subsidy
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
-                  A "GAP" housing subsidy for citizens earning between R3,501
+                  A &quot;GAP&quot; housing subsidy for citizens earning between R3,501
                   and R22,000/month. The government pays a lump sum (e.g.,
                   R50,000) directly into your bond, reducing your loan
                   instantly.

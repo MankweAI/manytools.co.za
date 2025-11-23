@@ -1,7 +1,7 @@
 // FILE: app/components/property/TransferCostCalculator.js
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { supabase } from "../../../utils/supabaseClient";
 import {
   calculateTransferDuty,
@@ -20,7 +20,7 @@ const formatNumber = (n, d = 0) => {
   return d ? `${neg}${withThousands}.${dec}` : `${neg}${withThousands}`;
 };
 
-export default function TransferCostCalculator({ defaults }) {
+function CalculatorContent({ defaults }) {
   // 1. Hybrid State Management (URL + Server Defaults)
   const [purchasePrice, setPurchasePrice] = useCalculatorParams(
     "price",
@@ -67,7 +67,7 @@ export default function TransferCostCalculator({ defaults }) {
     const deedsAndSundries = Math.max(
       0,
       full.totalOnceOffCosts -
-        (full.transferDuty + full.conveyancingFees + full.bondRegistrationFees)
+      (full.transferDuty + full.conveyancingFees + full.bondRegistrationFees)
     );
 
     const transferCostsOnly =
@@ -158,11 +158,10 @@ export default function TransferCostCalculator({ defaults }) {
           </div>
           {/* Dynamic Feedback for Foreign Buyers */}
           <p
-            className={`mt-1 text-xs ${
-              depositPct < 50 && defaults?.isForeignBuyer
+            className={`mt-1 text-xs ${depositPct < 50 && defaults?.isForeignBuyer
                 ? "text-red-600 font-bold"
                 : "text-slate-500"
-            }`}
+              }`}
           >
             Deposit: R {formatNumber(deposit)} ({formatNumber(depositPct, 1)}%)
             {depositPct < 50 &&
@@ -268,5 +267,15 @@ export default function TransferCostCalculator({ defaults }) {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function TransferCostCalculator(props) {
+  return (
+    <Suspense
+      fallback={<div className="p-8 text-center">Loading Calculator...</div>}
+    >
+      <CalculatorContent {...props} />
+    </Suspense>
   );
 }

@@ -102,7 +102,7 @@ export default function RetireePage() {
                 <dd className="text-slate-700 text-sm leading-relaxed">
                   You own the unit outright (Title Deed). You pay Transfer Duty
                   and levies. You CAN get a bond on this property, provided you
-                  meet the bank's affordability criteria.
+                  meet the bank&apos;s affordability criteria.
                 </dd>
               </div>
               <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
@@ -110,8 +110,8 @@ export default function RetireePage() {
                   Full Title (Freehold)
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
-                  You own the house and the land. Common in "Mature Lifestyle
-                  Estates". You are responsible for all maintenance, rates, and
+                  You own the house and the land. Common in &quot;Mature Lifestyle
+                  Estates&quot;. You are responsible for all maintenance, rates, and
                   insurance. Can be bonded.
                 </dd>
               </div>
@@ -121,7 +121,7 @@ export default function RetireePage() {
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
                   A once-off fee paid by the buyer (or deducted from the
-                  seller's profit) in retirement villages to keep monthly levies
+                  seller&apos;s profit) in retirement villages to keep monthly levies
                   artificially low.
                 </dd>
               </div>

@@ -121,7 +121,7 @@ export default function GovernmentEmployeePage() {
                 <dd className="text-slate-700 text-sm leading-relaxed">
                   You must be officially enrolled in GEHS to receive the
                   allowance. If you resign, the allowance stops immediately,
-                  increasing your "out of pocket" bond repayment.
+                  increasing your &quot;out of pocket&quot; bond repayment.
                 </dd>
               </div>
             </dl>

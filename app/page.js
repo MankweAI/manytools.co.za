@@ -34,7 +34,7 @@ export default function HomePage() {
             priority
           />
           {/* Overlay: Sits ON TOP of image to darken it for text readability */}
-          <div className="absolute inset-0 bg-slate-900/80 z-10"></div>
+          <div className="absolute inset-0 bg-slate-900/10 z-10"></div>
         </div>
 
         <div className="relative z-20 max-w-5xl mx-auto px-4 py-24 sm:py-32 text-center">

@@ -111,7 +111,7 @@ export default function SelfEmployedPage() {
                   Turnover vs. Profit
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
-                  Turnover is your total sales; Profit is what's left after
+                  Turnover is your total sales; Profit is what&apos;s left after
                   expenses. Banks lend based on <em>Profit</em> (personal
                   drawings), not turnover.
                 </dd>
