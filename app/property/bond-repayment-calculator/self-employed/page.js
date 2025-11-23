@@ -1,6 +1,6 @@
-// FILE: app/property/bond-repayment-calculator/self-employed/page.js
 import BondCalculator from "../../../components/property/BondCalculator";
-import Link from "next/link";
+import NextSteps from "../../../components/NextSteps";
+import ProFeatures from "../../../components/ProFeatures";
 
 export const metadata = {
   title: "Self-Employed Bond Calculator | Business Owner Home Loans (2025)",
@@ -26,11 +26,10 @@ const jsonLd = {
 
 export default function SelfEmployedPage() {
   // Self-Employed Configuration
-  // Banks often price self-employed loans at a premium due to income variance.
   const businessDefaults = {
     price: 2000000,
-    deposit: 200000, // 10% deposit is standard recommendation for business owners
-    interestRate: 12.25, // Often Prime + 0.5% to 1.5% depending on stability
+    deposit: 200000,
+    interestRate: 12.25,
   };
 
   const faqs = [
@@ -49,22 +48,22 @@ export default function SelfEmployedPage() {
   ];
 
   return (
-    <main className="bg-slate-50 min-h-screen font-sans">
+    <main className="bg-orange-50 min-h-screen font-sans">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="max-w-5xl mx-auto p-4 sm:p-8">
-        <header className="mb-10">
-          <div className="inline-block bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full mb-4">
+        <header className="text-center mb-10">
+          <span className="inline-block py-1 px-3 rounded-full bg-orange-100 text-orange-800 text-xs font-bold tracking-wide mb-4">
             ENTREPRENEUR & FREELANCER GUIDE
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 tracking-tight">
+          </span>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             Self-Employed Bond Calculator
           </h1>
-          <p className="mt-4 text-lg text-zinc-600 max-w-2xl">
+          <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
             Applying as a business owner? Calculate your repayments using
-            <strong className="text-amber-600">
+            <strong className="text-orange-600">
               {" "}
               risk-adjusted interest rates{" "}
             </strong>
@@ -72,117 +71,104 @@ export default function SelfEmployedPage() {
           </p>
         </header>
 
-        <div className="grid lg:grid-cols-3 gap-10">
-          {/* Main Calculator Area */}
-          <div className="lg:col-span-2">
+        <div className="space-y-16">
+          {/* Main Calculator */}
+          <section id="calculator-section">
             <BondCalculator defaults={businessDefaults} />
-          </div>
+          </section>
 
-          {/* Persona-Specific Sidebar Content */}
-          <div className="space-y-6">
-            <div className="bg-white p-6 rounded-xl border border-zinc-200 shadow-sm">
-              <h3 className="font-bold text-zinc-800 mb-3">
-                Affordability Check
-              </h3>
-              <p className="text-sm text-zinc-600 mb-4">
-                Banks analyze your <strong>Net Profit</strong>, not your
-                Turnover. Ensure your financials reflect enough profit to cover
-                the bond x 3.
-              </p>
-              <Link
-                href="/property/bond-affordability-calculator"
-                className="text-amber-600 font-semibold text-sm hover:underline"
-              >
-                Check Affordability &rarr;
-              </Link>
-            </div>
+          {/* Semantic SEO Definitions */}
+          <section
+            id="definitions"
+            className="bg-white p-8 rounded-2xl border border-orange-100 shadow-sm"
+          >
+            <h2 className="text-2xl font-bold text-slate-900 mb-6">
+              Self-Employed Lending Glossary
+            </h2>
+            <dl className="grid sm:grid-cols-2 gap-x-8 gap-y-6">
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">
+                  IT34 Assessment
+                </dt>
+                <dd className="text-slate-700 text-sm leading-relaxed">
+                  Your official tax assessment from SARS. Banks consider this the
+                  most reliable proof of income because it shows exactly what you
+                  declared to the taxman.
+                </dd>
+              </div>
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">
+                  Management Accounts
+                </dt>
+                <dd className="text-slate-700 text-sm leading-relaxed">
+                  Up-to-date financial figures for the current year. Banks ask for
+                  these if your Annual Financial Statements (AFS) are more than 6
+                  months old.
+                </dd>
+              </div>
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">
+                  Turnover vs. Profit
+                </dt>
+                <dd className="text-slate-700 text-sm leading-relaxed">
+                  Turnover is your total sales; Profit is what's left after
+                  expenses. Banks lend based on <em>Profit</em> (personal
+                  drawings), not turnover.
+                </dd>
+              </div>
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">Surety</dt>
+                <dd className="text-slate-700 text-sm leading-relaxed">
+                  If buying in a company or trust name, you (the director/trustee)
+                  will almost always have to sign personal surety for the bond.
+                </dd>
+              </div>
+            </dl>
+          </section>
 
-            <div className="bg-blue-50 p-6 rounded-xl border border-blue-100">
-              <h3 className="font-bold text-blue-900 mb-3">Pro Tip</h3>
-              <p className="text-sm text-blue-800">
-                Keep your personal and business expenses separate.
-                <strong> Co-mingling funds</strong> makes it harder for banks to
-                verify your true disposable income.
-              </p>
+          {/* FAQ Section */}
+          <section id="faq">
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">
+              Frequently Asked Questions
+            </h2>
+            <div className="space-y-4">
+              {faqs.map((faq, index) => (
+                <details
+                  key={index}
+                  className="bg-white p-6 rounded-lg shadow-sm border border-slate-200 group"
+                  open={index === 0}
+                >
+                  <summary className="font-semibold text-lg text-slate-800 cursor-pointer list-none flex justify-between items-center">
+                    {faq.q}
+                    <div className="text-slate-400 transition-transform duration-200 group-open:rotate-180">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="m6 9 6 6 6-6" />
+                      </svg>
+                    </div>
+                  </summary>
+                  <p className="mt-4 text-slate-600">{faq.a}</p>
+                </details>
+              ))}
             </div>
-          </div>
+          </section>
+
+          <section>
+            <ProFeatures />
+          </section>
+          <section>
+            <NextSteps />
+          </section>
         </div>
-
-        {/* Semantic SEO Definitions */}
-        <section className="mt-16 prose prose-slate max-w-none bg-white p-8 rounded-2xl border border-zinc-200 shadow-sm">
-          <h2 className="text-2xl font-bold text-zinc-800 not-prose mb-6">
-            Self-Employed Lending Glossary
-          </h2>
-          <dl className="grid sm:grid-cols-2 gap-x-8 gap-y-6">
-            <div>
-              <dt className="font-bold text-amber-700">IT34 Assessment</dt>
-              <dd className="text-zinc-600 mt-1">
-                Your official tax assessment from SARS. Banks consider this the
-                most reliable proof of income because it shows exactly what you
-                declared to the taxman.
-              </dd>
-            </div>
-            <div>
-              <dt className="font-bold text-amber-700">Management Accounts</dt>
-              <dd className="text-zinc-600 mt-1">
-                Up-to-date financial figures for the current year. Banks ask for
-                these if your Annual Financial Statements (AFS) are more than 6
-                months old.
-              </dd>
-            </div>
-            <div>
-              <dt className="font-bold text-amber-700">Turnover vs. Profit</dt>
-              <dd className="text-zinc-600 mt-1">
-                Turnover is your total sales; Profit is what's left after
-                expenses. Banks lend based on <em>Profit</em> (personal
-                drawings), not turnover.
-              </dd>
-            </div>
-            <div>
-              <dt className="font-bold text-amber-700">Surety</dt>
-              <dd className="text-zinc-600 mt-1">
-                If buying in a company or trust name, you (the director/trustee)
-                will almost always have to sign personal surety for the bond.
-              </dd>
-            </div>
-          </dl>
-        </section>
-
-        {/* FAQ Section */}
-        <section className="mt-10">
-          <h2 className="text-2xl font-bold text-zinc-800 mb-4">
-            Frequently Asked Questions
-          </h2>
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <details
-                key={index}
-                className="bg-white p-6 rounded-lg shadow-sm border border-slate-200 group"
-                open={index === 0}
-              >
-                <summary className="font-semibold text-lg text-slate-800 cursor-pointer list-none flex justify-between items-center">
-                  {faq.q}
-                  <div className="text-slate-500 transition-transform duration-200 group-open:rotate-180">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="m6 9 6 6 6-6" />
-                    </svg>
-                  </div>
-                </summary>
-                <p className="mt-4 text-slate-600">{faq.a}</p>
-              </details>
-            ))}
-          </div>
-        </section>
       </div>
     </main>
   );

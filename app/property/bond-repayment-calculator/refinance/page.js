@@ -51,14 +51,14 @@ export default function RefinancePage() {
   ];
 
   return (
-    <main className="bg-cyan-50 min-h-screen font-sans">
+    <main className="bg-orange-50 min-h-screen font-sans">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="max-w-5xl mx-auto p-4 sm:p-8">
         <header className="text-center mb-10">
-          <span className="inline-block py-1 px-3 rounded-full bg-cyan-100 text-cyan-800 text-xs font-bold tracking-wide mb-4">
+          <span className="inline-block py-1 px-3 rounded-full bg-orange-100 text-orange-800 text-xs font-bold tracking-wide mb-4">
             REFINANCE & SWITCH GUIDE
           </span>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
@@ -80,14 +80,14 @@ export default function RefinancePage() {
           {/* Semantic SEO: Switching Definitions */}
           <section
             id="refinance-guide"
-            className="bg-white p-8 rounded-2xl border border-cyan-100 shadow-sm"
+            className="bg-white p-8 rounded-2xl border border-orange-100 shadow-sm"
           >
             <h2 className="text-2xl font-bold text-slate-900 mb-6">
               The Cost of Switching
             </h2>
             <dl className="grid sm:grid-cols-2 gap-x-8 gap-y-6">
-              <div className="p-4 bg-cyan-50/50 rounded-lg border border-cyan-50">
-                <dt className="font-bold text-cyan-900 mb-2">
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">
                   Penalty Interest
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
@@ -96,8 +96,8 @@ export default function RefinancePage() {
                   90 days of penalty interest on your outstanding balance.
                 </dd>
               </div>
-              <div className="p-4 bg-cyan-50/50 rounded-lg border border-cyan-50">
-                <dt className="font-bold text-cyan-900 mb-2">
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">
                   Equity Release (Cash Out)
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
@@ -106,8 +106,8 @@ export default function RefinancePage() {
                   financing available for renovations or debt consolidation.
                 </dd>
               </div>
-              <div className="p-4 bg-cyan-50/50 rounded-lg border border-cyan-50">
-                <dt className="font-bold text-cyan-900 mb-2">
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">
                   Assessment Rate
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
@@ -116,8 +116,8 @@ export default function RefinancePage() {
                   statements just like a new application.
                 </dd>
               </div>
-              <div className="p-4 bg-cyan-50/50 rounded-lg border border-cyan-50">
-                <dt className="font-bold text-cyan-900 mb-2">
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">
                   Bond Registration
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">

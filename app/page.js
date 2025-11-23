@@ -1,10 +1,12 @@
 // FILE: app/page.js
-// UPDATE: Reflecting the new project name "manytools.co.za"
+import Link from "next/link";
+import Image from "next/image";
+
 
 // Helper component for SVG icons
-const Icon = ({ path }) => (
+const Icon = ({ path, className = "w-6 h-6" }) => (
   <svg
-    className="w-8 h-8 mb-4 text-indigo-600"
+    className={className}
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill="none"
@@ -17,265 +19,212 @@ const Icon = ({ path }) => (
   </svg>
 );
 
-// Data for our tool cards.
-const tools = [
-  // Property
-  {
-    title: "Transfer Duty Calculator",
-    description:
-      "Calculate the SARS transfer duty for property sales in South Africa.",
-    href: "/property/transfer-duty-calculator/2025",
-    category: "Property",
-    iconPath: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10",
-  },
-  {
-    title: "Bond Repayment Calculator",
-    description:
-      "Estimate your monthly home loan repayments, total interest, and more.",
-    href: "/property/bond-repayment-calculator",
-    category: "Property",
-    iconPath:
-      "M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8h16v10z",
-  },
-  {
-    title: "Bond Affordability Calculator",
-    description: "Calculate how much home loan you can afford.",
-    href: "/property/bond-affordability-calculator",
-    category: "Property",
-    iconPath: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10",
-  },
-  {
-    title: "Estate Agent Commission Calculator",
-    description: "Calculate estate agent commission on property sales.",
-    href: "/property/estate-agent-commission-calculator",
-    category: "Property",
-    iconPath: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10",
-  },
-  {
-    title: "Total Acquisition Cost Calculator",
-    description:
-      "Estimate transfer duty, legal fees, and total cash needed to buy.",
-    href: "/property/total-acquisition-cost-calculator",
-    category: "Property",
-    iconPath: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10",
-  },
-  {
-    title: "Rental Yield Calculator",
-    description: "Calculate gross and net rental yield, EGI and NOI.",
-    href: "/property/rental-yield-calculator",
-    category: "Property",
-    iconPath: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10",
-  },
-  {
-    title: "Capital Gains Tax (Property)",
-    description: "Estimate CGT on selling a property in South Africa.",
-    href: "/property/capital-gains-tax-calculator",
-    category: "Property",
-    iconPath: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10",
-  },
-  {
-    title: "Early Settlement Savings",
-    description: "See time and interest saved with extra bond repayments.",
-    href: "/property/early-settlement-savings-calculator",
-    category: "Property",
-    iconPath: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10",
-  },
-  {
-    title: "Bond vs Cash Calculator",
-    description:
-      "Compare buying with a bond versus cash including opportunity cost.",
-    href: "/property/bond-vs-cash-calculator",
-    category: "Property",
-    iconPath: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10",
-  },
-
-  // Tax
-  {
-    title: "Income Tax Calculator",
-    description: "Calculate your South African income tax and take-home pay.",
-    href: "/tax/income-tax-calculator",
-    category: "Tax",
-    iconPath: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
-  },
-  {
-    title: "PAYE Calculator",
-    description: "Estimate your net pay after PAYE, UIF, and SDL deductions.",
-    href: "/tax/paye-calculator",
-    category: "Tax",
-    iconPath: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
-  },
-  {
-    title: "UIF Calculator",
-    description: "Calculate UIF contributions and benefits.",
-    href: "/tax/uif-calculator",
-    category: "Tax",
-    iconPath: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
-  },
-  {
-    title: "VAT Calculator",
-    description: "Calculate VAT on sales and purchases.",
-    href: "/tax/vat-calculator",
-    category: "Tax",
-    iconPath: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
-  },
-  {
-    title: "Take Home Pay Calculator",
-    description: "Calculate your salary after all deductions.",
-    href: "/tax/take-home-pay-calculator",
-    category: "Tax",
-    iconPath: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
-  },
-  {
-    title: "Rates Clearance Estimator",
-    description: "Estimate prepaid months and arrears for municipal clearance.",
-    href: "/property/rates-clearance-estimator",
-    category: "Property",
-    iconPath: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10",
-  },
-  {
-    title: "Amortization Schedule",
-    description: "Full bond amortization with extra repayment modelling.",
-    href: "/property/amortization-schedule-calculator",
-    category: "Property",
-    iconPath: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10",
-  },
-  {
-    title: "SDL Calculator",
-    description: "Estimate your Skills Development Levy (1% of payroll).",
-    href: "/tax/sdl-calculator",
-    category: "Tax",
-    iconPath: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
-  },
-  {
-    title: "Sectional Title Levy Calculator",
-    description: "Calculate your levy by PQ and split special levies.",
-    href: "/property/sectional-title-levy-calculator",
-    category: "Property",
-    iconPath: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10",
-  },
-  {
-    title: "Transfer Cost Calculator",
-    description: "Estimate transfer duty, attorney fees and bond costs.",
-    href: "/property/transfer-cost-calculator",
-    category: "Property",
-    iconPath: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10",
-  },
-  {
-    title: "First-Time Buyer Costs",
-    description: "Plan deposit, legal fees, moving, setup and contingency.",
-    href: "/property/first-time-buyer-costs-calculator",
-    category: "Property",
-    iconPath: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10",
-  },
-  {
-    title: "Bond Transfer Timeline",
-    description: "Estimate your transfer process timeline and key dates.",
-    href: "/property/bond-transfer-timeline-estimator",
-    category: "Property",
-    iconPath: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10",
-  },
-  {
-    title: "Business Loan Calculator",
-    description:
-      "Estimate repayments, interest and fees for SA business loans.",
-    href: "/business/business-loan-calculator",
-    category: "Business",
-    iconPath:
-      "M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8h16v10z",
-  },
-  {
-    title: "Break-Even Calculator",
-    description: "Find units and revenue needed to break even.",
-    href: "/business/break-even-calculator",
-    category: "Business",
-    iconPath:
-      "M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8h16v10z",
-  },
-  {
-    title: "ROI Calculator",
-    description: "Compute simple & annualized ROI and payback period.",
-    href: "/business/roi-calculator",
-    category: "Business",
-    iconPath:
-      "M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8h16v10z",
-  },
-  {
-    title: "Cash Runway Calculator",
-    description: "Estimate months to cash-out and a run-out date.",
-    href: "/business/cash-runway-calculator",
-    category: "Business",
-    iconPath:
-      "M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8h16v10z",
-  },
-  {
-    title: "Fix & Flip Calculator",
-    description: "Estimate profit, ROI & holding costs for a property flip.",
-    href: "/property/fix-and-flip-calculator",
-    category: "Property",
-    iconPath: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10",
-  },
-];
-
 export default function HomePage() {
   return (
-    <main className="bg-slate-50 min-h-screen text-slate-800">
-      <div className="max-w-4xl mx-auto p-4 sm:p-8">
-        <header className="py-6 border-b border-slate-200">
-          <h1 className="text-2xl font-bold text-slate-900">
-            manytools<span className="text-indigo-600">.co.za</span>
+    <main className="bg-slate-50 min-h-screen font-sans">
+      {/* 1. HERO SECTION WITH BACKGROUND IMAGE */}
+      <section className="relative bg-slate-900 text-white overflow-hidden">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-slate-900/90 z-10"></div>
+          {/* Replace '/hero-bg.jpg' with your actual image path in public folder */}
+          <Image
+            src="/image/hero-bg.png"
+            alt="South African Property Market"
+            fill
+            className="object-cover opacity-30"
+            priority
+          />
+        </div>
+
+        <div className="relative z-20 max-w-5xl mx-auto px-4 py-24 sm:py-32 text-center">
+          <span className="inline-block py-1 px-3 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold tracking-wider mb-6 border border-emerald-500/30">
+            UPDATED FOR 2025/2026 TAX YEAR
+          </span>
+          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6">
+            Master Your Property Finances
           </h1>
-        </header>
-
-        <section className="text-center py-16 sm:py-20">
-          <h2 className="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-            Instant, Free & Secure Tools
-          </h2>
-          <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
-            A growing portfolio of simple, privacy-first calculators and
-            generators designed for South Africa. No logins, no tracking, just
-            answers.
+          <p className="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto mb-10">
+            Instant, accurate calculators for South African buyers, investors,
+            and business owners. No login required.
           </p>
-        </section>
 
-        <section>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {tools.map((tool) => (
-              <a
-                key={tool.title}
-                href={tool.href}
-                className="block p-6 bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-lg hover:border-indigo-500 transition-all duration-200 group"
-              >
-                <Icon path={tool.iconPath} />
-                <span className="inline-block bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">
-                  {tool.category}
-                </span>
-                <h3 className="mt-4 text-lg font-semibold text-slate-900 group-hover:text-indigo-600">
-                  {tool.title}
-                </h3>
-                <p className="mt-1 text-slate-600 text-sm">
-                  {tool.description}
-                </p>
-              </a>
-            ))}
-            <div className="p-6 bg-slate-100 border border-dashed border-slate-300 rounded-xl flex flex-col justify-center items-center text-center">
-              <Icon path="M12 6v6l4 2" />
-              <h3 className="mt-4 text-lg font-semibold text-slate-600">
-                More Tools Coming
-              </h3>
-              <p className="mt-1 text-slate-500 text-sm">
-                Calculators for Tax, Payroll, and Compliance are on the way.
-              </p>
-            </div>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Link
+              href="/property/bond-repayment-calculator"
+              className="px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl transition-all shadow-lg shadow-emerald-500/20"
+            >
+              Calculate Bond
+            </Link>
+            <Link
+              href="/property/transfer-cost-calculator"
+              className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl backdrop-blur-sm transition-all border border-white/10"
+            >
+              Transfer Costs
+            </Link>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <footer className="text-center py-10 mt-16 border-t border-slate-200">
-          <p className="text-sm text-slate-500">
-            © {new Date().getFullYear()} ManyTools. All rights reserved. Built
-            for South Africa.
+      {/* 2. PERSONA GATEWAYS (THE STRATEGIC SHIFT) */}
+      <section className="-mt-16 relative z-30 max-w-6xl mx-auto px-4 pb-20">
+        <div className="grid md:grid-cols-3 gap-6">
+          {/* Persona 1: First Time Buyer */}
+          <Link
+            href="/property/bond-repayment-calculator/first-time-buyer"
+            className="group"
+          >
+            <div className="bg-white p-8 rounded-2xl shadow-xl border border-slate-100 hover:border-emerald-500 transition-all h-full relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-emerald-100 w-24 h-24 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+              <div className="relative z-10">
+                <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-lg flex items-center justify-center mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                  <Icon path="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                  First-Time Buyer?
+                </h3>
+                <p className="text-slate-600 text-sm mb-4">
+                  Check affordability, explore FLISP subsidies, and understand
+                  100% bonds.
+                </p>
+                <span className="text-emerald-600 font-semibold text-sm group-hover:underline">
+                  Start Here &rarr;
+                </span>
+              </div>
+            </div>
+          </Link>
+
+          {/* Persona 2: Property Investor */}
+          <Link
+            href="/property/bond-repayment-calculator/investor"
+            className="group"
+          >
+            <div className="bg-white p-8 rounded-2xl shadow-xl border border-slate-100 hover:border-blue-500 transition-all h-full relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-blue-100 w-24 h-24 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+              <div className="relative z-10">
+                <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                  <Icon path="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                  Property Investor?
+                </h3>
+                <p className="text-slate-600 text-sm mb-4">
+                  Calculate rental yield, cash flow, and tax-deductible
+                  interest.
+                </p>
+                <span className="text-blue-600 font-semibold text-sm group-hover:underline">
+                  Analyze Deal &rarr;
+                </span>
+              </div>
+            </div>
+          </Link>
+
+          {/* Persona 3: Business Owner */}
+          <Link
+            href="/property/bond-repayment-calculator/self-employed"
+            className="group"
+          >
+            <div className="bg-white p-8 rounded-2xl shadow-xl border border-slate-100 hover:border-amber-500 transition-all h-full relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-amber-100 w-24 h-24 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+              <div className="relative z-10">
+                <div className="w-12 h-12 bg-amber-100 text-amber-600 rounded-lg flex items-center justify-center mb-6 group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                  <Icon path="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                  Self-Employed?
+                </h3>
+                <p className="text-slate-600 text-sm mb-4">
+                  Navigate complex income verification and deposit requirements.
+                </p>
+                <span className="text-amber-600 font-semibold text-sm group-hover:underline">
+                  Check Requirements &rarr;
+                </span>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </section>
+
+      {/* 3. FULL TOOL DIRECTORY */}
+      <section className="max-w-5xl mx-auto px-4 py-16">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-slate-900">
+            All Tools & Calculators
+          </h2>
+          <p className="text-slate-600 mt-2">
+            Everything you need to navigate the South African property market.
           </p>
-        </footer>
-      </div>
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            {
+              title: "Transfer Duty",
+              desc: "Calculate SARS tax on property sales.",
+              href: "/property/transfer-duty-calculator/2025",
+              icon: "M9 14l6-6m-5.5.5h.01",
+              color: "text-indigo-600",
+              bg: "bg-indigo-50",
+            },
+            {
+              title: "Bond Affordability",
+              desc: "How much house can you afford?",
+              href: "/property/bond-affordability-calculator",
+              icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",
+              color: "text-blue-600",
+              bg: "bg-blue-50",
+            },
+            {
+              title: "Total Acquisition Cost",
+              desc: "Cash needed for deposit + fees.",
+              href: "/property/total-acquisition-cost-calculator",
+              icon: "M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z",
+              color: "text-emerald-600",
+              bg: "bg-emerald-50",
+            },
+            {
+              title: "Refinance Calculator",
+              desc: "Should you switch your bond?",
+              href: "/property/bond-repayment-calculator/refinance",
+              icon: "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15",
+              color: "text-cyan-600",
+              bg: "bg-cyan-50",
+            },
+            {
+              title: "Capital Gains Tax",
+              desc: "Estimate tax on property profit.",
+              href: "/property/capital-gains-tax-calculator",
+              icon: "M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z",
+              color: "text-purple-600",
+              bg: "bg-purple-50",
+            },
+            {
+              title: "Amortization Table",
+              desc: "Download your payment schedule.",
+              href: "/property/amortization-schedule-calculator",
+              icon: "M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z",
+              color: "text-slate-600",
+              bg: "bg-slate-100",
+            },
+          ].map((tool, idx) => (
+            <Link
+              key={idx}
+              href={tool.href}
+              className="flex items-start p-6 bg-white border border-slate-200 rounded-xl hover:shadow-md hover:border-indigo-300 transition-all group"
+            >
+              <div
+                className={`w-10 h-10 rounded-lg flex items-center justify-center mr-4 ${tool.bg} ${tool.color} group-hover:scale-110 transition-transform`}
+              >
+                <Icon path={tool.icon} />
+              </div>
+              <div>
+                <h3 className="font-semibold text-slate-900">{tool.title}</h3>
+                <p className="text-sm text-slate-500 mt-1">{tool.desc}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
     </main>
   );
 }

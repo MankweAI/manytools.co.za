@@ -1,6 +1,7 @@
 // FILE: app/property/transfer-duty-calculator/2025/page.js
 import Calculator from "../../../components/Calculator";
 import ProFeatures from "../../../components/ProFeatures";
+import NextSteps from "../../../components/NextSteps";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -78,8 +79,8 @@ export default function TransferDutyCalculatorPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <main className="bg-slate-50 min-h-screen font-sans">
-        <div className="max-w-4xl mx-auto p-4 sm:p-8">
+      <main className="bg-orange-50 min-h-screen font-sans">
+        <div className="max-w-5xl mx-auto p-4 sm:p-8">
           <header className="text-center mb-10">
             <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
               South African Transfer Duty Calculator
@@ -107,19 +108,19 @@ export default function TransferDutyCalculatorPage() {
                   Source: sars.gov.za | Verified: Oct 2025
                 </span>
               </div>
-              <div className="bg-white rounded-lg shadow-md border border-slate-200 overflow-x-auto">
+              <div className="bg-white rounded-lg shadow-md border border-orange-200 overflow-x-auto">
                 <table className="w-full text-left">
-                  <thead className="bg-slate-100">
+                  <thead className="bg-orange-100">
                     <tr>
-                      <th className="p-4 font-semibold text-slate-700">
+                      <th className="p-4 font-semibold text-orange-900">
                         Property Value (R)
                       </th>
-                      <th className="p-4 font-semibold text-slate-700">
+                      <th className="p-4 font-semibold text-orange-900">
                         Rate of Duty
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-200">
+                  <tbody className="divide-y divide-orange-100">
                     {sarsRates.map((item, index) => (
                       <tr key={index}>
                         <td className="p-4 font-mono text-slate-800">
@@ -166,6 +167,10 @@ export default function TransferDutyCalculatorPage() {
                   </details>
                 ))}
               </div>
+            </section>
+
+            <section>
+              <NextSteps />
             </section>
           </div>
         </div>

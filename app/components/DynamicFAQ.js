@@ -7,12 +7,7 @@ export default function DynamicFAQ({
   monthlyRepayment,
   interestRate,
 }) {
-  const fmt = (n) =>
-    n.toLocaleString("en-ZA", {
-      style: "currency",
-      currency: "ZAR",
-      maximumFractionDigits: 0,
-    });
+  const fmt = (n) => "R " + n.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
   const salaryReq = monthlyRepayment * 3.33; // Roughly 30% of gross income
 

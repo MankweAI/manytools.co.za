@@ -51,14 +51,14 @@ export default function UpgradingPage() {
   ];
 
   return (
-    <main className="bg-purple-50 min-h-screen font-sans">
+    <main className="bg-orange-50 min-h-screen font-sans">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="max-w-5xl mx-auto p-4 sm:p-8">
         <header className="text-center mb-10">
-          <span className="inline-block py-1 px-3 rounded-full bg-purple-100 text-purple-800 text-xs font-bold tracking-wide mb-4">
+          <span className="inline-block py-1 px-3 rounded-full bg-orange-100 text-orange-800 text-xs font-bold tracking-wide mb-4">
             SELL-TO-BUY TOOLKIT
           </span>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
@@ -79,14 +79,14 @@ export default function UpgradingPage() {
           {/* Semantic SEO: Upgrade Definitions */}
           <section
             id="upgrade-guide"
-            className="bg-white p-8 rounded-2xl border border-purple-100 shadow-sm"
+            className="bg-white p-8 rounded-2xl border border-orange-100 shadow-sm"
           >
             <h2 className="text-2xl font-bold text-slate-900 mb-6">
               The Upgrade Process Explained
             </h2>
             <dl className="grid sm:grid-cols-2 gap-x-8 gap-y-6">
-              <div className="p-4 bg-purple-50/50 rounded-lg border border-purple-50">
-                <dt className="font-bold text-purple-900 mb-2">
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">
                   Bridging Finance
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
@@ -96,8 +96,8 @@ export default function UpgradingPage() {
                   or moving costs.
                 </dd>
               </div>
-              <div className="p-4 bg-purple-50/50 rounded-lg border border-purple-50">
-                <dt className="font-bold text-purple-900 mb-2">
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">
                   Simultaneous Transfer
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
@@ -106,8 +106,8 @@ export default function UpgradingPage() {
                   prevents you from being homeless or paying two bonds at once.
                 </dd>
               </div>
-              <div className="p-4 bg-purple-50/50 rounded-lg border border-purple-50">
-                <dt className="font-bold text-purple-900 mb-2">
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">
                   72-Hour Clause
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
@@ -117,8 +117,8 @@ export default function UpgradingPage() {
                   house fast) or lose the deal.
                 </dd>
               </div>
-              <div className="p-4 bg-purple-50/50 rounded-lg border border-purple-50">
-                <dt className="font-bold text-purple-900 mb-2">
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">
                   Bond Cancellation Fee
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">

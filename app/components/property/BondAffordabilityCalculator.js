@@ -33,7 +33,7 @@ export default function BondAffordabilityCalculator({ defaults }) {
 
   const formatNumber = (num) => {
     if (isNaN(num) || num === null) return "0";
-    return num.toLocaleString("en-ZA");
+    return num.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   };
 
   // Totals Calculation
@@ -103,21 +103,19 @@ export default function BondAffordabilityCalculator({ defaults }) {
         <div className="inline-flex bg-stone-100 p-1 rounded-lg">
           <button
             onClick={() => setIsJoint(false)}
-            className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-              !isJoint
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${!isJoint
                 ? "bg-white text-stone-800 shadow-sm"
                 : "text-stone-500 hover:text-stone-700"
-            }`}
+              }`}
           >
             Single Applicant
           </button>
           <button
             onClick={() => setIsJoint(true)}
-            className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-              isJoint
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${isJoint
                 ? "bg-white text-stone-800 shadow-sm"
                 : "text-stone-500 hover:text-stone-700"
-            }`}
+              }`}
           >
             Joint Application
           </button>

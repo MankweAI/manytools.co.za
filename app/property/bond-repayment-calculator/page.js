@@ -40,17 +40,17 @@ export default function BondRepaymentCalculatorPage() {
   };
 
   return (
-    <main className="bg-slate-50 min-h-screen font-sans">
+    <main className="bg-orange-50 min-h-screen font-sans">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="max-w-5xl mx-auto p-4 sm:p-8">
         <header className="text-center mb-10">
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 tracking-tight">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             Bond & Home Loan Repayment Calculator
           </h1>
-          <p className="mt-3 text-lg text-zinc-600">
+          <p className="mt-3 text-lg text-slate-600">
             Estimate your monthly home loan repayments and see a complete cost
             breakdown.
           </p>
@@ -64,47 +64,47 @@ export default function BondRepaymentCalculatorPage() {
           {/* SEMANTIC SEO: DEFINITION PROTOCOL */}
           <section
             id="definitions"
-            className="bg-white p-8 rounded-2xl border border-zinc-200 shadow-sm"
+            className="bg-white p-8 rounded-2xl border border-orange-200 shadow-sm"
           >
-            <h2 className="text-2xl font-bold text-zinc-800 mb-6">
+            <h2 className="text-2xl font-bold text-slate-800 mb-6">
               Key Mortgage Definitions
             </h2>
             <dl className="grid sm:grid-cols-2 gap-x-8 gap-y-6">
-              <div className="p-4 bg-slate-50 rounded-lg">
-                <dt className="font-bold text-emerald-700 mb-2">
+              <div className="p-4 bg-orange-50 rounded-lg">
+                <dt className="font-bold text-orange-700 mb-2">
                   Principal Debt
                 </dt>
-                <dd className="text-zinc-600 text-sm leading-relaxed">
+                <dd className="text-slate-600 text-sm leading-relaxed">
                   The original amount of money borrowed from the bank to
                   purchase your property, excluding interest. This is usually
                   the Purchase Price minus your Deposit.
                 </dd>
               </div>
-              <div className="p-4 bg-slate-50 rounded-lg">
-                <dt className="font-bold text-emerald-700 mb-2">
+              <div className="p-4 bg-orange-50 rounded-lg">
+                <dt className="font-bold text-orange-700 mb-2">
                   Amortization
                 </dt>
-                <dd className="text-zinc-600 text-sm leading-relaxed">
+                <dd className="text-slate-600 text-sm leading-relaxed">
                   The process of paying off a debt over time through regular
                   payments. A portion of each payment is for interest and the
                   remaining amount is applied to the principal balance.
                 </dd>
               </div>
-              <div className="p-4 bg-slate-50 rounded-lg">
-                <dt className="font-bold text-emerald-700 mb-2">
+              <div className="p-4 bg-orange-50 rounded-lg">
+                <dt className="font-bold text-orange-700 mb-2">
                   Variable Interest Rate
                 </dt>
-                <dd className="text-zinc-600 text-sm leading-relaxed">
+                <dd className="text-slate-600 text-sm leading-relaxed">
                   An interest rate that fluctuates with the South African Prime
                   Lending Rate (Repo Rate). If the Prime rate goes up, your
                   repayment increases.
                 </dd>
               </div>
-              <div className="p-4 bg-slate-50 rounded-lg">
-                <dt className="font-bold text-emerald-700 mb-2">
+              <div className="p-4 bg-orange-50 rounded-lg">
+                <dt className="font-bold text-orange-700 mb-2">
                   Bond Registration Costs
                 </dt>
-                <dd className="text-zinc-600 text-sm leading-relaxed">
+                <dd className="text-slate-600 text-sm leading-relaxed">
                   Fees paid to the registering attorney to register the bond at
                   the Deeds Office. This is separate from Transfer Duty and is
                   typically calculated on a sliding scale based on the loan

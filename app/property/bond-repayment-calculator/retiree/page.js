@@ -51,14 +51,14 @@ export default function RetireePage() {
   ];
 
   return (
-    <main className="bg-teal-50 min-h-screen font-sans">
+    <main className="bg-orange-50 min-h-screen font-sans">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="max-w-5xl mx-auto p-4 sm:p-8">
         <header className="text-center mb-10">
-          <span className="inline-block py-1 px-3 rounded-full bg-teal-100 text-teal-800 text-xs font-bold tracking-wide mb-4">
+          <span className="inline-block py-1 px-3 rounded-full bg-orange-100 text-orange-800 text-xs font-bold tracking-wide mb-4">
             RETIREMENT PLANNING TOOLKIT
           </span>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
@@ -66,7 +66,7 @@ export default function RetireePage() {
           </h1>
           <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
             Moving to a smaller home? Calculate your costs with a{" "}
-            <strong className="text-teal-600">large deposit</strong> and see if
+            <strong className="text-orange-600">large deposit</strong> and see if
             a small bond makes sense.
           </p>
         </header>
@@ -80,14 +80,14 @@ export default function RetireePage() {
           {/* Semantic SEO: Retirement Definitions */}
           <section
             id="retirement-guide"
-            className="bg-white p-8 rounded-2xl border border-teal-100 shadow-sm"
+            className="bg-white p-8 rounded-2xl border border-orange-100 shadow-sm"
           >
             <h2 className="text-2xl font-bold text-slate-900 mb-6">
               Retirement Property Types
             </h2>
             <dl className="grid sm:grid-cols-2 gap-x-8 gap-y-6">
-              <div className="p-4 bg-teal-50/50 rounded-lg border border-teal-50">
-                <dt className="font-bold text-teal-900 mb-2">Life Rights</dt>
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">Life Rights</dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
                   You pay a capital sum for the right to occupy the unit for the
                   rest of your life. You do not own the property, you pay no
@@ -95,8 +95,8 @@ export default function RetireePage() {
                   of the capital is usually returned to the estate.
                 </dd>
               </div>
-              <div className="p-4 bg-teal-50/50 rounded-lg border border-teal-50">
-                <dt className="font-bold text-teal-900 mb-2">
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">
                   Sectional Title
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
@@ -105,8 +105,8 @@ export default function RetireePage() {
                   meet the bank's affordability criteria.
                 </dd>
               </div>
-              <div className="p-4 bg-teal-50/50 rounded-lg border border-teal-50">
-                <dt className="font-bold text-teal-900 mb-2">
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">
                   Full Title (Freehold)
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
@@ -115,8 +115,8 @@ export default function RetireePage() {
                   insurance. Can be bonded.
                 </dd>
               </div>
-              <div className="p-4 bg-teal-50/50 rounded-lg border border-teal-50">
-                <dt className="font-bold text-teal-900 mb-2">
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">
                   Levy Stabilisation Fund
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">

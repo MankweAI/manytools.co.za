@@ -51,14 +51,14 @@ export default function GovernmentEmployeePage() {
   ];
 
   return (
-    <main className="bg-slate-50 min-h-screen font-sans">
+    <main className="bg-orange-50 min-h-screen font-sans">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="max-w-5xl mx-auto p-4 sm:p-8">
         <header className="text-center mb-10">
-          <span className="inline-block py-1 px-3 rounded-full bg-indigo-100 text-indigo-800 text-xs font-bold tracking-wide mb-4">
+          <span className="inline-block py-1 px-3 rounded-full bg-orange-100 text-orange-800 text-xs font-bold tracking-wide mb-4">
             GEHS MEMBER TOOLKIT
           </span>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
@@ -66,7 +66,7 @@ export default function GovernmentEmployeePage() {
           </h1>
           <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
             Calculate your bond repayment factoring in the{" "}
-            <strong className="text-indigo-600">GEHS Housing Allowance</strong>{" "}
+            <strong className="text-orange-600">GEHS Housing Allowance</strong>{" "}
             and Persal deductions.
           </p>
         </header>
@@ -80,14 +80,14 @@ export default function GovernmentEmployeePage() {
           {/* Semantic SEO: GEHS Definitions */}
           <section
             id="gehs-guide"
-            className="bg-white p-8 rounded-2xl border border-indigo-100 shadow-sm"
+            className="bg-white p-8 rounded-2xl border border-orange-100 shadow-sm"
           >
             <h2 className="text-2xl font-bold text-slate-900 mb-6">
               Government Housing Glossary
             </h2>
             <dl className="grid sm:grid-cols-2 gap-x-8 gap-y-6">
-              <div className="p-4 bg-indigo-50/50 rounded-lg border border-indigo-50">
-                <dt className="font-bold text-indigo-900 mb-2">
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">
                   GEHS (Housing Scheme)
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
@@ -96,8 +96,8 @@ export default function GovernmentEmployeePage() {
                   access affordable home finance and housing subsidies.
                 </dd>
               </div>
-              <div className="p-4 bg-indigo-50/50 rounded-lg border border-indigo-50">
-                <dt className="font-bold text-indigo-900 mb-2">
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">
                   Housing Allowance
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
@@ -106,8 +106,8 @@ export default function GovernmentEmployeePage() {
                   paid into a savings facility (ILSF) until you buy a home.
                 </dd>
               </div>
-              <div className="p-4 bg-indigo-50/50 rounded-lg border border-indigo-50">
-                <dt className="font-bold text-indigo-900 mb-2">
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">
                   Persal Stop Order
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
@@ -116,8 +116,8 @@ export default function GovernmentEmployeePage() {
                   this security and may offer rate discounts for it.
                 </dd>
               </div>
-              <div className="p-4 bg-indigo-50/50 rounded-lg border border-indigo-50">
-                <dt className="font-bold text-indigo-900 mb-2">Enrolment</dt>
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">Enrolment</dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
                   You must be officially enrolled in GEHS to receive the
                   allowance. If you resign, the allowance stops immediately,

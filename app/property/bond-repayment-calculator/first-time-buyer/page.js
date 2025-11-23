@@ -51,7 +51,7 @@ export default function FirstTimeBuyerPage() {
   ];
 
   return (
-    <main className="bg-emerald-50 min-h-screen font-sans">
+    <main className="bg-orange-50 min-h-screen font-sans">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -59,7 +59,7 @@ export default function FirstTimeBuyerPage() {
       <div className="max-w-5xl mx-auto p-4 sm:p-8">
         {/* Persona Header */}
         <header className="text-center mb-10">
-          <span className="inline-block py-1 px-3 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold tracking-wide mb-4">
+          <span className="inline-block py-1 px-3 rounded-full bg-orange-100 text-orange-800 text-xs font-bold tracking-wide mb-4">
             FIRST-TIME BUYER TOOLKIT
           </span>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
@@ -67,7 +67,7 @@ export default function FirstTimeBuyerPage() {
           </h1>
           <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
             Calculate your repayment with{" "}
-            <strong className="text-emerald-600">0% deposit</strong> options and
+            <strong className="text-orange-600">0% deposit</strong> options and
             see if you qualify for government subsidies.
           </p>
         </header>
@@ -81,14 +81,14 @@ export default function FirstTimeBuyerPage() {
           {/* 4. Persona-Specific Definitions */}
           <section
             id="guide"
-            className="bg-white p-8 rounded-2xl border border-emerald-100 shadow-sm"
+            className="bg-white p-8 rounded-2xl border border-orange-100 shadow-sm"
           >
             <h2 className="text-2xl font-bold text-slate-900 mb-6">
               First-Time Buyer Cheat Sheet
             </h2>
             <dl className="grid sm:grid-cols-2 gap-x-8 gap-y-6">
-              <div className="p-4 bg-emerald-50/50 rounded-lg border border-emerald-50">
-                <dt className="font-bold text-emerald-900 mb-2">
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">
                   100% Bond (Zero Deposit)
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
@@ -98,8 +98,8 @@ export default function FirstTimeBuyerPage() {
                   larger.
                 </dd>
               </div>
-              <div className="p-4 bg-emerald-50/50 rounded-lg border border-emerald-50">
-                <dt className="font-bold text-emerald-900 mb-2">
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">
                   FLISP Subsidy
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
@@ -109,16 +109,16 @@ export default function FirstTimeBuyerPage() {
                   instantly.
                 </dd>
               </div>
-              <div className="p-4 bg-emerald-50/50 rounded-lg border border-emerald-50">
-                <dt className="font-bold text-emerald-900 mb-2">105% Bond</dt>
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">105% Bond</dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
                   A special loan product for first-time buyers that covers the
                   property price (100%) plus an extra 5% to help pay for
                   transfer and bond registration costs.
                 </dd>
               </div>
-              <div className="p-4 bg-emerald-50/50 rounded-lg border border-emerald-50">
-                <dt className="font-bold text-emerald-900 mb-2">
+              <div className="p-4 bg-orange-50/50 rounded-lg border border-orange-50">
+                <dt className="font-bold text-orange-900 mb-2">
                   Transfer Duty Exemption
                 </dt>
                 <dd className="text-slate-700 text-sm leading-relaxed">
