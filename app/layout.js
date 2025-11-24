@@ -14,6 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
+  metadataBase: new URL('https://manytools.co.za'),
   title: "ManyTools South Africa | Free Property & Tax Calculators",
   description:
     "Instant, accurate calculators for South African property buyers, investors, and business owners. Calculate bond repayments, transfer costs, tax, and more.",
@@ -22,6 +23,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <meta
+          name="google-site-verification"
+          content="me8Lvf5PMx_tM5HUTCzC5JoBw8PkY0URGQBSBytj4ko"
+        />
+      </head>
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-50 text-slate-900`}
       >
@@ -32,3 +40,4 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+
